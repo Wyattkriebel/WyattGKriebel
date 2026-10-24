@@ -1,0 +1,45 @@
+# Home page content. Edit freely; the layout reads everything from here.
+
+name: Wyatt G. Kriebel
+deck: Gene therapy research, computational protein modeling and cGMP manufacturing
+
+affiliations:
+  - mark: 1
+    short: Krystal Biotech
+    note: Bioprocess Engineer I, cGMP gene therapy manufacturing, 2025 to present
+  - mark: 2
+    short: University of Pittsburgh
+    note: B.S. Computational Biology, 2023; research in the Byrne and Liu labs, 2020 to 2025
+
+highlights:
+  - Co-first author of a 2026 Scientific Reports study measuring vision in OCA1 mice
+  - Designed and purified AAV gene therapy vectors for retinal disease in the Byrne Lab
+  - Simulated de novo designed heme enzymes with AMBER molecular dynamics
+  - Primary subject matter expert for a new cGMP process, working with the FDA
+
+in_brief: >-
+  Wyatt Kriebel works across molecular biology, computation and
+  manufacturing. At the University of Pittsburgh he spent five years on AAV
+  gene therapy for oculocutaneous albinism type 1, purifying vectors and
+  building the behavioral assays used to measure vision in OCA1 mice, and
+  later simulated de novo designed enzymes with molecular dynamics. He now
+  manufactures gene therapies under cGMP at Krystal Biotech.
+
+interests: >-
+  Protein engineering and de novo enzyme design; molecular simulation and
+  modeling; AAV vector and capsid engineering; and the path from a designed
+  molecule to a manufacturable therapy.
+
+keywords:
+  - AAV gene therapy
+  - Oculocutaneous albinism
+  - Retinal pigment epithelium
+  - Protein engineering
+  - De novo enzyme design
+  - Molecular dynamics
+  - scRNA-seq
+  - cGMP bioprocessing
+
+correspondence:
+  email: wyattkriebel@gmail.com
+  github: Wyattkriebel

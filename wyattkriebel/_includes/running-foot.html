@@ -1,0 +1,11 @@
+{%- assign c = site.data.profile.correspondence -%}
+<footer class="running-foot">
+  <div class="running-foot__inner">
+    <p>&copy; {{ site.time | date: '%Y' }} Wyatt G. Kriebel</p>
+    <p class="running-foot__links">
+      <a href="mailto:{{ c.email }}">Email</a>
+      <a href="https://github.com/{{ c.github }}">GitHub</a>
+    </p>
+    <p>Updated <time datetime="{{ site.time | date: '%Y-%m' }}">{{ site.time | date: '%B %Y' }}</time></p>
+  </div>
+</footer>

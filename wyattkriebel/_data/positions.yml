@@ -1,0 +1,45 @@
+# Newest first. `home: true` lists the role in the home page summary.
+
+- role: Bioprocess Engineer I
+  org: Krystal Biotech
+  focus: cGMP manufacturing of gene therapies
+  start: Aug 2025
+  end: Present
+  home: true
+  points:
+    - End-to-end cGMP manufacturing, from buffer preparation and upstream cell culture to downstream purification and aseptic fill.
+    - Primary subject matter expert for qualifying and implementing a new manufacturing process, working directly with the FDA during qualification.
+    - Trained a 12-person manufacturing team on the new process and mentor two newly hired process engineers.
+
+- role: Volunteer Computational Researcher
+  org: Liu Lab, University of Pittsburgh
+  focus: De novo enzyme design
+  start: Mar 2025
+  end: Aug 2025
+  home: true
+  points:
+    - Simulated de novo enzymes designed for new-to-nature bond formation with AMBER molecular dynamics to assess structural viability.
+    - Generated force-field parameters for heme and porphyrin cofactors with transition-metal centers.
+    - Clustered simulation data with k-means to identify conformational substates.
+
+- role: Research Technician
+  org: Byrne Lab, University of Pittsburgh
+  focus: Retinal gene therapy
+  start: Apr 2023
+  end: Aug 2025
+  home: true
+  points:
+    - Designed and cloned viral vectors; purified AAV on ÄKTA Pure systems by affinity chromatography, gradient elution and sterile formulation.
+    - Developed and validated quantitative behavioral assays to phenotype vision in mouse cohorts.
+    - Used computational modeling and molecular docking to prioritize novel AAV capsid variants.
+
+- role: Undergraduate Researcher
+  org: Byrne Lab, University of Pittsburgh
+  focus: Retinal gene therapy
+  start: Oct 2020
+  end: Apr 2023
+  points:
+    - Large-scale AAV purification by ultracentrifugation and FPLC, with affinity and ion-exchange chromatography.
+    - Maintained HEK293 cultures for high-efficiency transfection and vector production under BSL-2 conditions.
+    - Evaluated transcription factors and injection methods to improve repigmentation in OCA1 mice.
+    - Built a Python and R scRNA-seq pipeline comparing tyrosinase-negative and wild-type retinal cells.

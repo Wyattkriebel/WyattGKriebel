@@ -1,0 +1,43 @@
+---
+layout: default
+title: Publications
+description: Peer-reviewed articles, preprints and presentations by Wyatt G. Kriebel on AAV gene therapy and vision in oculocutaneous albinism type 1.
+nav: publications
+schema: publications
+---
+<div class="wrap">
+  <header class="title-block title-block--page">
+    <h1 class="title">Publications</h1>
+    <p class="deck">Articles and preprints, newest first.</p>
+    <p class="title-block__note"><abbr class="eq" title="Equal contribution">*</abbr> Equal contribution</p>
+  </header>
+
+  <div class="doc">
+    <section aria-labelledby="h-articles">
+      <h2 id="h-articles">Articles and preprints</h2>
+      <div class="pub-list">
+        {%- assign total = site.data.publications | size -%}
+        {%- for pub in site.data.publications %}
+        {%- assign n = total | minus: forloop.index0 %}
+        {% include publication.html pub=pub num=n full="yes" %}
+        {%- endfor %}
+      </div>
+    </section>
+
+    <section aria-labelledby="h-presentations">
+      <h2 id="h-presentations">Presentations</h2>
+      <div class="pub-list">
+        {%- for t in site.data.presentations %}
+        <article class="pub pub--talk">
+          <div class="pub__body">
+            <h3 class="pub__title">{{ t.title }}</h3>
+            <p class="pub__authors">{{ t.authors | replace: 'Kriebel WG', '<strong>Kriebel WG</strong>' }}</p>
+            <p class="pub__venue">{{ t.venue }}, {{ t.place }}</p>
+            <p class="pub__history">{{ t.year }}</p>
+          </div>
+        </article>
+        {%- endfor %}
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+{%- assign p = site.data.profile -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ p.name | jsonify }},
+  "url": {{ site.url | append: '/' | jsonify }},
+  "email": {{ p.correspondence.email | prepend: 'mailto:' | jsonify }},
+  "jobTitle": "Bioprocess Engineer",
+  "worksFor": { "@type": "Organization", "name": "Krystal Biotech" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of Pittsburgh" },
+  "knowsAbout": {{ p.keywords | jsonify }},
+  "sameAs": [ {{ 'https://github.com/' | append: p.correspondence.github | jsonify }} ]
+}
+</script>

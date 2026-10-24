@@ -1,0 +1,79 @@
+---
+layout: default
+title: Experience
+description: Research and manufacturing experience of Wyatt G. Kriebel, including AAV gene therapy, molecular dynamics of de novo enzymes and cGMP bioprocessing.
+nav: experience
+---
+<div class="wrap">
+  <header class="title-block title-block--page">
+    <h1 class="title">Experience</h1>
+    <p class="deck">Research and manufacturing roles, methods, education and honors.</p>
+  </header>
+
+  <div class="doc">
+    <section aria-labelledby="h-positions">
+      <h2 id="h-positions">Positions</h2>
+      {%- for r in site.data.positions %}
+      <article class="entry">
+        <p class="entry__dates"><span>{{ r.start }}</span> &ndash; <span>{{ r.end }}</span></p>
+        <div class="entry__body">
+          <h3 class="entry__title">{{ r.role }}</h3>
+          <p class="entry__org">{{ r.org }}<span class="sep" aria-hidden="true">&middot;</span>{{ r.focus }}</p>
+          <ul>
+            {%- for pt in r.points %}
+            <li>{{ pt }}</li>
+            {%- endfor %}
+          </ul>
+        </div>
+      </article>
+      {%- endfor %}
+    </section>
+
+    <section aria-labelledby="h-resources">
+      <h2 id="h-resources">Key resources</h2>
+      <div class="table-scroll">
+        <table class="resources">
+          <caption>Methods and tools used across the roles above</caption>
+          <thead>
+            <tr><th scope="col">Area</th><th scope="col">Methods</th></tr>
+          </thead>
+          <tbody>
+            {%- for m in site.data.methods %}
+            <tr><th scope="row">{{ m.area }}</th><td>{{ m.methods }}</td></tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-education">
+      <h2 id="h-education">Education</h2>
+      {%- for d in site.data.education.degrees %}
+      <article class="entry">
+        <p class="entry__dates"><span>{{ d.date }}</span></p>
+        <div class="entry__body">
+          <h3 class="entry__title">{{ d.degree }}</h3>
+          <p class="entry__org">{{ d.school }}</p>
+          <p class="entry__detail">{{ d.detail }}</p>
+        </div>
+      </article>
+      {%- endfor %}
+    </section>
+
+    <section aria-labelledby="h-honors">
+      <h2 id="h-honors">Honors and societies</h2>
+      {%- for h in site.data.education.honors %}
+      <article class="entry">
+        <p class="entry__dates"><span>{{ h.date }}</span></p>
+        <div class="entry__body">
+          <h3 class="entry__title">{{ h.name }}</h3>
+          <p class="entry__org">{{ h.org }}</p>
+          {%- if h.detail %}
+          <p class="entry__detail">{{ h.detail }}</p>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </section>
+  </div>
+</div>

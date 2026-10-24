@@ -1,0 +1,51 @@
+# Newest first. Set `me: true` on your own name and `equal: true` for equal
+# contribution. `selected: true` shows the paper on the home page.
+
+- id: larimer-picciani-2026-biorxiv
+  bibkey: larimerpicciani2026systemic
+  title: Systemic, RPE-directed AAV-Tyrosinase therapy restores ocular pigmentation in an OCA1 mouse model
+  authors:
+    - { short: Larimer-Picciani AM, full: "Larimer-Picciani, Alessandra M." }
+    - { short: Jacob LB, full: "Jacob, Lucas B." }
+    - { short: Sullinger KJ, full: "Sullinger, Kacey J." }
+    - { short: Kriebel WG, full: "Kriebel, Wyatt G.", me: true }
+    - { short: Sahel J-A, full: "Sahel, José-Alain" }
+    - { short: Byrne LC, full: "Byrne, Leah C." }
+  venue: bioRxiv
+  venue_short: bioRxiv
+  year: 2026
+  kind: Preprint
+  history: Posted 2 July 2026
+  status: Accepted at Molecular Therapy (in press)
+  doi: 10.64898/2026.07.01.735814
+  summary: >-
+    Compares intraocular and systemic AAV delivery, using vectors with
+    different degrees of RPE specificity, for restoring iris, RPE and choroid
+    pigment in an OCA1 mouse model. Early systemic delivery of an RPE-directed
+    AAV-Tyrosinase construct restored ocular pigmentation.
+  selected: true
+
+- id: kriebel-2026-scirep
+  bibkey: kriebel2026quantifying
+  title: Quantifying functional vision in a mouse model of oculocutaneous albinism type 1
+  authors:
+    - { short: Kriebel WG, full: "Kriebel, Wyatt G.", me: true, equal: true }
+    - { short: Larimer-Picciani AM, full: "Larimer-Picciani, Alessandra M.", equal: true }
+    - { short: Nukala M, full: "Nukala, Mahija" }
+    - { short: Sahel J-A, full: "Sahel, José-Alain" }
+    - { short: Byrne LC, full: "Byrne, Leah C." }
+  venue: Scientific Reports
+  venue_short: Sci Rep
+  volume: 16
+  number: 14563
+  year: 2026
+  kind: Article
+  history: Published 23 March 2026
+  status: Open access
+  doi: 10.1038/s41598-026-45301-x
+  summary: >-
+    A battery of behavioral tests for vision in OCA1 mice. The mice avoided
+    bright light, showed weaker novel-object recognition and responded
+    differently to an overhead looming stimulus, giving measurable readouts
+    of the visual deficits that come with albinism.
+  selected: true

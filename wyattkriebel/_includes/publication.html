@@ -1,0 +1,56 @@
+{%- assign pub = include.pub -%}
+{%- capture cite_text -%}
+{%- for a in pub.authors -%}{{ a.short }}{% unless forloop.last %}, {% endunless %}{%- endfor -%}. {{ pub.title }}. {{ pub.venue_short }}. {{ pub.year }}{% if pub.volume %};{{ pub.volume }}:{{ pub.number }}{% endif %}. doi:{{ pub.doi }}
+{%- endcapture -%}
+{%- assign lb = '{' -%}
+{%- assign rb = '}' -%}
+{%- capture author_list -%}{%- for a in pub.authors -%}{{ a.full }}{% unless forloop.last %} and {% endunless %}{%- endfor -%}{%- endcapture -%}
+{%- capture bibtex -%}
+@article{{ lb }}{{ pub.bibkey }},
+  title   = {{ lb }}{{ pub.title }}{{ rb }},
+  author  = {{ lb }}{{ author_list }}{{ rb }},
+  journal = {{ lb }}{{ pub.venue }}{{ rb }},
+{%- if pub.volume %}
+  volume  = {{ lb }}{{ pub.volume }}{{ rb }},
+  pages   = {{ lb }}{{ pub.number }}{{ rb }},
+{%- endif %}
+  year    = {{ lb }}{{ pub.year }}{{ rb }},
+  doi     = {{ lb }}{{ pub.doi }}{{ rb }}
+{{ rb }}
+{%- endcapture -%}
+<article class="pub{% if include.num %} pub--numbered{% endif %}" id="{{ pub.id }}">
+  {%- if include.num %}
+  <p class="pub__num" aria-hidden="true">{{ include.num }}</p>
+  {%- endif %}
+  <div class="pub__body">
+    <h3 class="pub__title"><a href="https://doi.org/{{ pub.doi }}">{{ pub.title }}</a></h3>
+    <p class="pub__authors">
+      {%- for a in pub.authors -%}
+      {%- if a.me -%}<strong>{{ a.short }}</strong>{%- else -%}{{ a.short }}{%- endif -%}
+      {%- if a.equal -%}<abbr class="eq" title="Equal contribution">*</abbr>{%- endif -%}
+      {%- unless forloop.last %}, {% endunless -%}
+      {%- endfor -%}
+    </p>
+    <p class="pub__venue"><cite>{{ pub.venue }}</cite>{% if pub.volume %} {{ pub.volume }}, {{ pub.number }}{% endif %} ({{ pub.year }})</p>
+    <p class="pub__history">{{ pub.history }}{% if pub.status %}<span class="sep" aria-hidden="true">&middot;</span>{{ pub.status }}{% endif %}</p>
+    {%- if include.full %}
+    <p class="pub__summary">{{ pub.summary }}</p>
+    {%- endif %}
+    <div class="pub__actions">
+      <a class="pub__doi" href="https://doi.org/{{ pub.doi }}">doi:{{ pub.doi }}{% include icon.html name='external' %}</a>
+      <button class="pub__cite" type="button" aria-expanded="false" aria-controls="{{ pub.id }}-cite" hidden>Cite{% include icon.html name='chevron' %}</button>
+    </div>
+    <div class="cite-panel" id="{{ pub.id }}-cite" hidden>
+      <div class="cite-panel__block">
+        <p class="cite-panel__label" id="{{ pub.id }}-cite-text-label">Citation</p>
+        <p class="cite-panel__text" id="{{ pub.id }}-cite-text">{{ cite_text }}</p>
+        <button class="copy" type="button" data-copy="{{ pub.id }}-cite-text" aria-describedby="{{ pub.id }}-cite-text-label">{% include icon.html name='copy' %}<span>Copy</span></button>
+      </div>
+      <div class="cite-panel__block">
+        <p class="cite-panel__label" id="{{ pub.id }}-bibtex-label">BibTeX</p>
+        <pre class="cite-panel__code"><code id="{{ pub.id }}-bibtex">{{ bibtex }}</code></pre>
+        <button class="copy" type="button" data-copy="{{ pub.id }}-bibtex" aria-describedby="{{ pub.id }}-bibtex-label">{% include icon.html name='copy' %}<span>Copy</span></button>
+      </div>
+    </div>
+  </div>
+</article>

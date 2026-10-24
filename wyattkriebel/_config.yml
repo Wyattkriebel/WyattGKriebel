@@ -1,0 +1,35 @@
+title: Wyatt G. Kriebel
+tagline: Gene therapy, computational modeling and bioprocessing
+description: >-
+  Wyatt G. Kriebel works across AAV gene therapy research, computational
+  protein modeling and cGMP gene therapy manufacturing. Publications,
+  experience and contact.
+url: https://wyattkriebel.com
+baseurl: ""
+lang: en_US
+timezone: America/New_York
+
+author:
+  name: Wyatt G. Kriebel
+  email: wyattkriebel@gmail.com
+
+social:
+  name: Wyatt G. Kriebel
+  links:
+    - https://github.com/Wyattkriebel
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+markdown: kramdown
+
+exclude:
+  - README.md
+  - LICENSE
+  - PRODUCT.md
+  - DESIGN.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .impeccable

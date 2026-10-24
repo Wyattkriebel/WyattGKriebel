@@ -1,0 +1,91 @@
+---
+layout: default
+nav: profile
+schema: person
+---
+{%- assign p = site.data.profile -%}
+<div class="wrap">
+  <header class="title-block">
+    <h1 class="title">{{ p.name }}</h1>
+    <p class="deck">{{ p.deck }}</p>
+    <p class="affil">
+      {%- for a in p.affiliations -%}
+      <span class="affil__item">{{ a.short }}<sup>{{ a.mark }}</sup></span>
+      {%- endfor -%}
+    </p>
+    <ul class="affil-notes">
+      {%- for a in p.affiliations %}
+      <li><sup>{{ a.mark }}</sup>{{ a.note }}</li>
+      {%- endfor %}
+    </ul>
+  </header>
+
+  <div class="opener">
+    <section class="highlights" aria-labelledby="h-highlights">
+      <h2 id="h-highlights">Highlights</h2>
+      <ul>
+        {%- for h in p.highlights %}
+        <li>{{ h }}</li>
+        {%- endfor %}
+      </ul>
+    </section>
+
+    <div class="opener__main">
+      <section aria-labelledby="h-brief">
+        <h2 id="h-brief">In brief</h2>
+        <p class="lede">{{ p.in_brief }}</p>
+      </section>
+
+      <section aria-labelledby="h-selected">
+        <h2 id="h-selected">Selected publications</h2>
+        <div class="pub-list">
+          {%- for pub in site.data.publications %}
+          {%- if pub.selected %}
+          {% include publication.html pub=pub %}
+          {%- endif %}
+          {%- endfor %}
+        </div>
+        <p class="more"><a href="{{ '/publications.html' | relative_url }}">All publications and presentations</a></p>
+      </section>
+
+      <section aria-labelledby="h-interests">
+        <h2 id="h-interests">Research interests</h2>
+        <p class="prose">{{ p.interests }}</p>
+      </section>
+
+      <section aria-labelledby="h-positions">
+        <h2 id="h-positions">Positions</h2>
+        <ul class="brief-list">
+          {%- for r in site.data.positions %}
+          {%- if r.home %}
+          <li>
+            <span class="brief-list__dates">{{ r.start }} &ndash; {{ r.end }}</span>
+            <span class="brief-list__what"><strong>{{ r.role }}</strong>, {{ r.org }}</span>
+          </li>
+          {%- endif %}
+          {%- endfor %}
+        </ul>
+        <p class="more"><a href="{{ '/experience.html' | relative_url }}">Full experience, methods and education</a></p>
+      </section>
+    </div>
+
+    <div class="opener__meta">
+      <section class="keywords" aria-labelledby="h-keywords">
+        <h2 id="h-keywords">Keywords</h2>
+        <ul>
+          {%- for k in p.keywords %}
+          <li>{{ k }}</li>
+          {%- endfor %}
+        </ul>
+      </section>
+
+      <section class="correspondence" aria-labelledby="h-correspondence">
+        <h2 id="h-correspondence">Correspondence</h2>
+        <ul>
+          <li><a href="mailto:{{ p.correspondence.email }}">{{ p.correspondence.email }}</a></li>
+          <li><a href="https://github.com/{{ p.correspondence.github }}">github.com/{{ p.correspondence.github }}</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
