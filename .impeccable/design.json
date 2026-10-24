@@ -4,64 +4,64 @@
   "title": "Design System: Wyatt G. Kriebel",
   "extensions": {
     "colorMeta": {
-      "stain": {
+      "accent": {
         "role": "primary",
-        "displayName": "Coomassie Blue",
-        "canonical": "#2c3a9f",
+        "displayName": "Forest",
+        "canonical": "#173d2a",
         "tonalRamp": [
-          "#11163c",
-          "#1c2464",
-          "#27338c",
-          "#3242b4",
-          "#5766d1",
-          "#8f99e0",
-          "#c7ccf0",
-          "#ebedf9"
+          "#0a1a12",
+          "#0f2a1d",
+          "#173d2a",
+          "#22553b",
+          "#2f6e4d",
+          "#4f8c6a",
+          "#8fb8a0",
+          "#d6e6dc"
         ]
       },
-      "destain": {
-        "role": "primary",
-        "displayName": "Destained Gel",
-        "canonical": "#eef1fb",
+      "trim": {
+        "role": "secondary",
+        "displayName": "Gold",
+        "canonical": "#c9a54a",
         "tonalRamp": [
-          "#0f193e",
-          "#182a67",
-          "#223b90",
-          "#2c4cba",
-          "#5270d6",
-          "#8ba0e4",
-          "#c5cff1",
-          "#eaeefa"
+          "#3d3014",
+          "#5c4a1e",
+          "#7d6428",
+          "#a08132",
+          "#c9a54a",
+          "#d9bd6a",
+          "#e9d59c",
+          "#f6ecd2"
         ]
       },
-      "paper": {
+      "tint": {
         "role": "neutral",
-        "displayName": "Offprint White",
-        "canonical": "#ffffff",
+        "displayName": "Pale Forest",
+        "canonical": "#edf3ef",
         "tonalRamp": [
-          "#1e222f",
-          "#32394e",
-          "#454f6d",
-          "#59668c",
-          "#7c88ac",
-          "#a8b0c7",
-          "#d3d7e3",
-          "#eff1f5"
+          "#2d3a33",
+          "#4a5a51",
+          "#6a7c72",
+          "#8fa197",
+          "#b4c4ba",
+          "#d0ddd5",
+          "#edf3ef",
+          "#f7faf8"
         ]
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Stain-Black Ink",
-        "canonical": "#161823",
+        "displayName": "Forest Ink",
+        "canonical": "#14201a",
         "tonalRamp": [
-          "#1e202f",
-          "#31364e",
-          "#454b6e",
-          "#59618d",
-          "#7b83ac",
-          "#a7acc8",
-          "#d3d6e3",
-          "#eff0f5"
+          "#14201a",
+          "#26332c",
+          "#3a4841",
+          "#44514a",
+          "#5a6861",
+          "#7d8a83",
+          "#aab4ae",
+          "#d8e1db"
         ]
       }
     },
@@ -76,7 +76,7 @@
       },
       "title": {
         "displayName": "Section title",
-        "purpose": "Section headings, in stain blue."
+        "purpose": "Section headings, in forest green (gold in dark mode)."
       },
       "title-entry": {
         "displayName": "Entry title",
@@ -132,17 +132,17 @@
       "name": "Running head",
       "kind": "nav",
       "refersTo": "nav-link",
-      "description": "Stain band, name, label and page navigation with the current page underlined.",
+      "description": "Forest band with the name, label and page navigation with the current page underlined.",
       "html": "<header class=\"ds-head\"><span class=\"ds-head__name\">W. G. Kriebel</span><nav><a href=\"#\" aria-current=\"page\">Profile</a><a href=\"#\">Publications</a><a href=\"#\">Experience</a></nav></header>",
-      "css": ".ds-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;padding:.85rem 1.5rem;border-top:6px solid var(--stain,#2c3a9f);border-bottom:1px solid var(--rule,#d9dce6);font-family:'Schibsted Grotesk',Arial,sans-serif}.ds-head__name{font-weight:700;color:var(--ink,#161823)}.ds-head nav{display:flex;gap:1.4rem}.ds-head nav a{color:var(--ink-2,#464b5d);font-size:.9375rem;font-weight:500;text-decoration:none;padding-block:.3rem}.ds-head nav a:hover{color:var(--stain,#2c3a9f)}.ds-head nav a:focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}.ds-head nav a[aria-current=page]{color:var(--ink,#161823);font-weight:650;box-shadow:inset 0 -2px 0 var(--stain,#2c3a9f)}"
+      "css": ".ds-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;padding:.85rem 1.5rem;border-top:6px solid var(--accent,#173d2a);border-bottom:1px solid var(--rule,#d8e1db);font-family:'Schibsted Grotesk',Arial,sans-serif}.ds-head__name{font-weight:700;color:var(--ink,#14201a)}.ds-head nav{display:flex;gap:1.4rem}.ds-head nav a{color:var(--ink-2,#44514a);font-size:.9375rem;font-weight:500;text-decoration:none;padding-block:.3rem}.ds-head nav a:hover{color:var(--accent,#173d2a)}.ds-head nav a:focus-visible{outline:2px solid var(--accent,#173d2a);outline-offset:3px}.ds-head nav a[aria-current=page]{color:var(--ink,#14201a);font-weight:650;box-shadow:inset 0 -2px 0 var(--accent,#173d2a)}"
     },
     {
       "name": "Highlights panel",
       "kind": "custom",
       "refersTo": "highlights-panel",
-      "description": "Journal Highlights: stain header strip over a destained panel with square-marker bullets.",
+      "description": "Journal Highlights: forest header strip with a gold rule over a pale green panel with square-marker bullets.",
       "html": "<section class=\"ds-hl\"><h2>Highlights</h2><ul><li>Co-first author of a 2026 Scientific Reports study measuring vision in OCA1 mice</li><li>Simulated de novo designed heme enzymes with AMBER molecular dynamics</li></ul></section>",
-      "css": ".ds-hl{background:var(--destain,#eef1fb);border-radius:3px;overflow:hidden;max-width:19.5rem}.ds-hl h2{margin:0;padding:.55rem 1.3rem .5rem;background:var(--stain,#2c3a9f);color:#fff;font:700 1rem/1.25 'Schibsted Grotesk',Arial,sans-serif}.ds-hl ul{margin:0;padding:1.1rem 1.3rem 1.3rem 2.35rem;list-style:square;font:400 1rem/1.45 'Source Serif 4',Georgia,serif;color:var(--ink,#161823)}.ds-hl li+li{margin-top:.7rem}.ds-hl li::marker{color:var(--stain,#2c3a9f)}"
+      "css": ".ds-hl{background:var(--tint,#edf3ef);border-radius:3px;overflow:hidden;max-width:19.5rem}.ds-hl h2{margin:0;padding:.55rem 1.3rem .5rem;background:var(--accent,#173d2a);color:#fff;font:700 1rem/1.25 'Schibsted Grotesk',Arial,sans-serif}.ds-hl ul{margin:0;padding:1.1rem 1.3rem 1.3rem 2.35rem;list-style:square;font:400 1rem/1.45 'Source Serif 4',Georgia,serif;color:var(--ink,#14201a)}.ds-hl li+li{margin-top:.7rem}.ds-hl li::marker{color:var(--accent,#173d2a)}"
     },
     {
       "name": "Reference entry",
@@ -150,15 +150,15 @@
       "refersTo": "title-entry",
       "description": "Publication with DOI title link, authors, italic journal, history line and actions.",
       "html": "<article class=\"ds-ref\"><h3><a href=\"#\">Quantifying functional vision in a mouse model of oculocutaneous albinism type 1</a></h3><p class=\"ds-ref__au\"><strong>Kriebel WG</strong><span class=\"ds-eq\">*</span>, Larimer-Picciani AM<span class=\"ds-eq\">*</span>, Nukala M, Sahel J-A, Byrne LC</p><p><cite>Scientific Reports</cite> 16, 14563 (2026)</p><p class=\"ds-ref__hist\">Published 23 March 2026 &middot; Open access</p><p class=\"ds-ref__act\"><a href=\"#\">doi:10.1038/s41598-026-45301-x</a><button type=\"button\">Cite</button></p></article>",
-      "css": ".ds-ref{font:400 1rem/1.5 'Source Serif 4',Georgia,serif;color:var(--ink,#161823)}.ds-ref p{margin:0}.ds-ref h3{margin:0 0 .4rem;font:600 1.25rem/1.3 'Schibsted Grotesk',Arial,sans-serif;letter-spacing:-.012em}.ds-ref h3 a{color:inherit;text-decoration:none}.ds-ref h3 a:hover{color:var(--stain,#2c3a9f);text-decoration:underline}.ds-ref__au{color:var(--ink-2,#464b5d)}.ds-ref__au strong{color:var(--ink,#161823)}.ds-eq{color:var(--stain,#2c3a9f);font-weight:700}.ds-ref__hist{margin-top:.3rem!important;font:400 .875rem/1.45 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5f6477)}.ds-ref__act{display:flex;gap:1.4rem;margin-top:.75rem!important;font:600 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif}.ds-ref__act a{color:var(--stain,#2c3a9f);text-underline-offset:.2em}.ds-ref__act button{border:0;background:none;padding:0;font:inherit;color:var(--stain,#2c3a9f);cursor:pointer}.ds-ref__act button:hover{text-decoration:underline;text-decoration-thickness:2px}.ds-ref__act :focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}"
+      "css": ".ds-ref{font:400 1rem/1.5 'Source Serif 4',Georgia,serif;color:var(--ink,#14201a)}.ds-ref p{margin:0}.ds-ref h3{margin:0 0 .4rem;font:600 1.25rem/1.3 'Schibsted Grotesk',Arial,sans-serif;letter-spacing:-.012em}.ds-ref h3 a{color:inherit;text-decoration:none}.ds-ref h3 a:hover{color:var(--accent,#173d2a);text-decoration:underline}.ds-ref__au{color:var(--ink-2,#44514a)}.ds-ref__au strong{color:var(--ink,#14201a)}.ds-eq{color:var(--accent,#173d2a);font-weight:700}.ds-ref__hist{margin-top:.3rem!important;font:400 .875rem/1.45 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5a6861)}.ds-ref__act{display:flex;gap:1.4rem;margin-top:.75rem!important;font:600 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif}.ds-ref__act a{color:var(--accent,#173d2a);text-underline-offset:.2em}.ds-ref__act button{border:0;background:none;padding:0;font:inherit;color:var(--accent,#173d2a);cursor:pointer}.ds-ref__act button:hover{text-decoration:underline;text-decoration-thickness:2px}.ds-ref__act :focus-visible{outline:2px solid var(--accent,#173d2a);outline-offset:3px}"
     },
     {
       "name": "Copy button",
       "kind": "button",
       "refersTo": "copy-button",
-      "description": "Small outlined button inside the Cite panel; fills with stain when copied.",
+      "description": "Small outlined button inside the Cite panel; fills with forest green when copied.",
       "html": "<button class=\"ds-copy\" type=\"button\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5.5\" y=\"5.5\" width=\"8\" height=\"8\" rx=\"1.5\"/><path d=\"M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2\"/></svg>Copy</button>",
-      "css": ".ds-copy{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .65rem;border:1px solid var(--destain-edge,#d3d9f2);border-radius:4px;background:var(--paper,#fff);color:var(--stain,#2c3a9f);font:600 .8125rem/1.2 'Schibsted Grotesk',Arial,sans-serif;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),border-color 160ms cubic-bezier(.16,1,.3,1)}.ds-copy:hover{border-color:var(--stain,#2c3a9f)}.ds-copy:focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}.ds-copy:active{background:var(--stain,#2c3a9f);color:#fff}"
+      "css": ".ds-copy{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .65rem;border:1px solid var(--tint-edge,#d0ddd5);border-radius:4px;background:var(--paper,#fff);color:var(--accent,#173d2a);font:600 .8125rem/1.2 'Schibsted Grotesk',Arial,sans-serif;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),border-color 160ms cubic-bezier(.16,1,.3,1)}.ds-copy:hover{border-color:var(--accent,#173d2a)}.ds-copy:focus-visible{outline:2px solid var(--accent,#173d2a);outline-offset:3px}.ds-copy:active{background:var(--accent,#173d2a);color:#fff}"
     },
     {
       "name": "Key resources table",
@@ -166,29 +166,19 @@
       "refersTo": "label",
       "description": "Three-rule journal table with caption above.",
       "html": "<table class=\"ds-tbl\"><caption>Methods and tools used across the roles above</caption><thead><tr><th>Area</th><th>Methods</th></tr></thead><tbody><tr><th>Computational</th><td>Python, R, AMBER molecular dynamics, molecular docking</td></tr><tr><th>Gene therapy</th><td>AAV production and purification, cGMP manufacturing</td></tr></tbody></table>",
-      "css": ".ds-tbl{width:100%;border-collapse:collapse;border-top:2px solid var(--ink,#161823);border-bottom:2px solid var(--ink,#161823);font:400 1rem/1.5 'Source Serif 4',Georgia,serif}.ds-tbl caption{caption-side:top;text-align:left;padding-bottom:.65rem;font:400 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5f6477)}.ds-tbl thead th{text-align:left;padding:.55rem 1rem .5rem 0;border-bottom:1px solid var(--ink,#161823);font:700 .8125rem/1.3 'Schibsted Grotesk',Arial,sans-serif}.ds-tbl tbody th,.ds-tbl td{text-align:left;vertical-align:top;padding:.8rem 1rem .8rem 0}.ds-tbl tbody th{font:600 .9375rem/1.45 'Schibsted Grotesk',Arial,sans-serif;width:30%}.ds-tbl tbody tr+tr>*{border-top:1px solid var(--rule,#d9dce6)}"
+      "css": ".ds-tbl{width:100%;border-collapse:collapse;border-top:2px solid var(--ink,#14201a);border-bottom:2px solid var(--ink,#14201a);font:400 1rem/1.5 'Source Serif 4',Georgia,serif}.ds-tbl caption{caption-side:top;text-align:left;padding-bottom:.65rem;font:400 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5a6861)}.ds-tbl thead th{text-align:left;padding:.55rem 1rem .5rem 0;border-bottom:1px solid var(--ink,#14201a);font:700 .8125rem/1.3 'Schibsted Grotesk',Arial,sans-serif}.ds-tbl tbody th,.ds-tbl td{text-align:left;vertical-align:top;padding:.8rem 1rem .8rem 0}.ds-tbl tbody th{font:600 .9375rem/1.45 'Schibsted Grotesk',Arial,sans-serif;width:30%}.ds-tbl tbody tr+tr>*{border-top:1px solid var(--rule,#d8e1db)}"
     }
   ],
   "narrative": {
     "northStar": "The Journal First Page",
-    "overview": "Every page is set like the opening page of a life-science research article: a colour band and running head at the top, a large sans title block with superscript affiliations, then a Highlights box and the article body. The world lives in the frame (band, running head, title block, Highlights strip, three-rule tables, reference-list entries). The reading column stays quiet: a text serif at a real measure on plain white paper.\n\nThe single accent is Coomassie blue, the dye used to stain protein gels, and its pale \"destained gel\" tint. The site is meant to look credible to faculty and hiring managers. It is flat, typographic and print-derived, with no gradients, glass, cards or animation beyond small state transitions.",
+    "overview": "Every page is set like the opening page of a life-science research article: a colour band and running head at the top, a large sans title block with superscript affiliations, then a Highlights box and the article body. The world lives in the frame (band, running head, title block, Highlights strip, three-rule tables, reference-list entries). The reading column stays quiet: a text serif at a real measure on plain white paper.\n\nThe palette is dark forest green, white and gold. A forest band carries the running head and title block, and another closes the page as the footer. Gold appears only as trim: the rule under the band, the Highlights strip, list markers, superscripts and link underlines. The reading column sits on plain white. The site is meant to look credible to faculty and hiring managers. It is flat, typographic and print-derived, with no gradients, glass, cards or animation beyond small state transitions.",
     "keyCharacteristics": [
-      "White offprint paper, near-black blue-tinted ink, one stain colour.",
+      "Forest bands top and bottom, white paper between, gold only as trim.",
       "Grotesque sans for titles, headings, labels and metadata; text serif for anything read as prose.",
       "Journal apparatus as the component set: running head, superscript affiliations with footnotes, Highlights, keywords, Correspondence, reference entries with history lines, Cite, three-rule tables.",
-      "Square list markers in stain blue, solid rules, tabular numerals for dates."
+      "Square list markers in gold, solid rules, tabular numerals for dates."
     ],
     "rules": [
-      {
-        "name": "The One Stain Rule",
-        "body": "Coomassie blue is the only hue on the page. Hierarchy comes from weight, size and ink tone, never from a second accent.",
-        "section": "colors"
-      },
-      {
-        "name": "The White Paper Rule",
-        "body": "The ground is plain white in light mode. Tinted grounds appear only inside the destained panels.",
-        "section": "colors"
-      },
       {
         "name": "The Front-Matter Rule",
         "body": "Sans for anything that labels, serif for anything that is read. Never set a paragraph in the grotesque or a heading in the serif.",
@@ -198,11 +188,21 @@
         "name": "The No Eyebrow Rule",
         "body": "Headings stand alone. No small labels above headings and no section numbers. The only numbering is the publication count, because it carries information.",
         "section": "typography"
+      },
+      {
+        "name": "The Gold Is Trim Rule",
+        "body": "Gold marks edges and points: rules, markers, underlines, superscripts. It never fills a panel, and it is never body text on white.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Bands Rule",
+        "body": "Forest bands open and close every page (running head plus title block, and the footer). Everything between them is white paper.",
+        "section": "colors"
       }
     ],
     "dos": [
       "Do keep every claim traceable: publications carry DOIs and history lines exactly as the publisher states them.",
-      "Do theme browser surfaces from the palette: selection in the select tint, caret and focus ring in stain (2px outline, 3px offset), and a link underline offset of 0.2em.",
+      "Do theme browser surfaces from the palette: selection in the select tint, caret and focus ring in forest (gold on the bands; 2px outline, 3px offset), and a link underline offset of 0.2em.",
       "Do use authored inline SVG icons at 14px with a 1.5–1.6 stroke.",
       "Do respect reduced motion. The only motion is 160–220ms ease-out on state changes and the Cite panel's fade-in."
     ],

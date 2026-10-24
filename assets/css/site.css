@@ -1,4 +1,4 @@
-/* wyattkriebel.com: a journal first page, set in Coomassie blue. */
+/* wyattkriebel.com: a journal first page in dark forest green, white and gold. */
 
 @font-face {
   font-family: "Schibsted Grotesk";
@@ -25,17 +25,21 @@
 :root {
   color-scheme: light;
   --paper: #ffffff;
-  --ink: #161823;
-  --ink-2: #464b5d;
-  --ink-3: #5f6477;
-  --stain: #2c3a9f;          /* Coomassie blue */
-  --stain-deep: #1f2a7c;
-  --on-stain: #ffffff;
-  --destain: #eef1fb;        /* destained gel */
-  --destain-edge: #d3d9f2;
-  --rule: #d9dce6;
-  --rule-strong: #161823;
-  --select: #cdd5f8;
+  --ink: #14201a;
+  --ink-2: #44514a;
+  --ink-3: #5a6861;
+  --accent: #173d2a;         /* dark forest green: headings, links */
+  --accent-deep: #0f2a1d;
+  --on-accent: #ffffff;
+  --tint: #edf3ef;           /* pale green panel ground */
+  --tint-edge: #d0ddd5;
+  --band: #173d2a;           /* forest band: header, title block, footer */
+  --on-band: #ffffff;
+  --on-band-2: #c9d6ce;
+  --trim: #c9a54a;           /* gold trim: rules, markers, underlines */
+  --rule: #d8e1db;
+  --rule-strong: #173d2a;
+  --select: #ecdfb4;
 
   --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -50,34 +54,42 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --paper: #0f1119;
-    --ink: #e9ebf3;
-    --ink-2: #bcc1d2;
-    --ink-3: #9a9fb3;
-    --stain: #a9b5ff;
-    --stain-deep: #c9d0ff;
-    --on-stain: #0f1119;
-    --destain: #171b2d;
-    --destain-edge: #2b3254;
-    --rule: #2a2e3d;
-    --rule-strong: #e9ebf3;
-    --select: #35418a;
+    --paper: #0b1510;
+    --ink: #e8eee9;
+    --ink-2: #bac8bf;
+    --ink-3: #96a69c;
+    --accent: #d9bd6a;
+    --accent-deep: #e9d59c;
+    --on-accent: #0b1510;
+    --tint: #12231a;
+    --tint-edge: #25402f;
+    --band: #123020;
+    --on-band: #f2f6f3;
+    --on-band-2: #b4c6ba;
+    --trim: #c9a54a;
+    --rule: #22342a;
+    --rule-strong: #c9a54a;
+    --select: #5a4a1c;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #0f1119;
-  --ink: #e9ebf3;
-  --ink-2: #bcc1d2;
-  --ink-3: #9a9fb3;
-  --stain: #a9b5ff;
-  --stain-deep: #c9d0ff;
-  --on-stain: #0f1119;
-  --destain: #171b2d;
-  --destain-edge: #2b3254;
-  --rule: #2a2e3d;
-  --rule-strong: #e9ebf3;
-  --select: #35418a;
+  --paper: #0b1510;
+  --ink: #e8eee9;
+  --ink-2: #bac8bf;
+  --ink-3: #96a69c;
+  --accent: #d9bd6a;
+  --accent-deep: #e9d59c;
+  --on-accent: #0b1510;
+  --tint: #12231a;
+  --tint-edge: #25402f;
+  --band: #123020;
+  --on-band: #f2f6f3;
+  --on-band-2: #b4c6ba;
+  --trim: #c9a54a;
+  --rule: #22342a;
+  --rule-strong: #c9a54a;
+  --select: #5a4a1c;
 }
 
 /* Base */
@@ -97,29 +109,28 @@ body {
   font: 400 1.0625rem/1.6 var(--serif);
   font-optical-sizing: auto;
   font-kerning: normal;
-  caret-color: var(--stain);
+  caret-color: var(--accent);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column;}
 
 main { flex: 1 0 auto; }
 
 ::selection { background: var(--select); color: var(--ink); }
 
 a {
-  color: var(--stain);
+  color: var(--accent);
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  text-decoration-color: color-mix(in srgb, var(--stain) 40%, transparent);
+  text-decoration-color: var(--trim);
   transition: text-decoration-color 160ms var(--ease-out), color 160ms var(--ease-out);
 }
 a:hover { text-decoration-color: currentColor; text-decoration-thickness: 2px; }
 
 :focus-visible {
-  outline: 2px solid var(--stain);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -131,7 +142,7 @@ sup { line-height: 0; }
 
 abbr.eq {
   text-decoration: none;
-  color: var(--stain);
+  color: var(--accent);
   font-weight: 700;
   cursor: help;
 }
@@ -146,8 +157,8 @@ abbr.eq {
   top: -4rem;
   z-index: 10;
   padding: 0.55rem 0.9rem;
-  background: var(--stain);
-  color: var(--on-stain);
+  background: var(--accent);
+  color: var(--on-accent);
   font: 600 0.9375rem/1 var(--sans);
   text-decoration: none;
   border-radius: 3px;
@@ -163,10 +174,14 @@ abbr.eq {
 /* Running head: the journal's colour band and page header */
 
 .running-head {
-  border-top: 6px solid var(--stain);
-  border-bottom: 1px solid var(--rule);
+  background: var(--band);
+  color: var(--on-band);
+  border-bottom: 1px solid color-mix(in srgb, var(--on-band) 14%, transparent);
   font-family: var(--sans);
 }
+.running-head :focus-visible,
+.title-block :focus-visible,
+.running-foot :focus-visible { outline-color: var(--trim); }
 .running-head__inner {
   max-width: var(--page);
   margin-inline: auto;
@@ -179,14 +194,14 @@ abbr.eq {
 }
 .running-head__id { margin: 0; display: flex; align-items: baseline; gap: 0.75rem; }
 .running-head__name {
-  color: var(--ink);
+  color: var(--on-band);
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.01em;
   text-decoration: none;
 }
-.running-head__name:hover { color: var(--stain); }
-.running-head__label { color: var(--ink-3); font-size: 0.875rem; }
+.running-head__name:hover { color: var(--trim); }
+.running-head__label { color: var(--on-band-2); font-size: 0.875rem; }
 .running-head__nav ul {
   display: flex;
   gap: 0.25rem 1.4rem;
@@ -197,16 +212,16 @@ abbr.eq {
 .running-head__nav a {
   display: inline-block;
   padding-block: 0.3rem;
-  color: var(--ink-2);
+  color: var(--on-band-2);
   font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none;
 }
-.running-head__nav a:hover { color: var(--stain); }
+.running-head__nav a:hover { color: var(--on-band); }
 .running-head__nav a[aria-current="page"] {
-  color: var(--ink);
+  color: var(--on-band);
   font-weight: 650;
-  box-shadow: inset 0 -2px 0 var(--stain);
+  box-shadow: inset 0 -2px 0 var(--trim);
 }
 
 @media (max-width: 40rem) {
@@ -219,27 +234,32 @@ abbr.eq {
 .title-block {
   padding-block: clamp(2.5rem, 1.4rem + 4.4vw, 5rem) clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
   margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.25rem);
-  border-bottom: 2px solid var(--rule-strong);
+  color: var(--on-band);
+  /* Full-bleed forest band closed by a 4px gold rule. The border image's
+     outset paints past the column without widening the page. */
+  border-bottom: 4px solid var(--trim);
+  border-image: linear-gradient(to top, var(--trim) 4px, var(--band) 4px) fill 0 // 0 100vmax;
 }
 .title {
   margin: 0;
   font: 700 clamp(2.5rem, 1.55rem + 3.9vw, 4.5rem)/1.02 var(--sans);
   letter-spacing: -0.03em;
-  color: var(--ink);
+  color: var(--on-band);
 }
 .title-block--page .title { font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.25rem); }
 .deck {
   margin: 0.85rem 0 0;
   max-width: 46ch;
   font: 400 clamp(1.2rem, 1.02rem + 0.7vw, 1.55rem)/1.35 var(--serif);
-  color: var(--ink-2);
+  color: var(--on-band-2);
 }
 .title-block--page .deck { max-width: 52ch; font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); }
 .title-block__note {
   margin: 0.9rem 0 0;
   font: 400 0.875rem/1.4 var(--sans);
-  color: var(--ink-3);
+  color: var(--on-band-2);
 }
+.title-block abbr.eq { color: var(--trim); }
 
 .affil {
   display: flex;
@@ -247,13 +267,13 @@ abbr.eq {
   gap: 0.2rem 1.4rem;
   margin: 1.75rem 0 0;
   font: 600 1.0625rem/1.4 var(--sans);
-  color: var(--ink);
+  color: var(--on-band);
 }
 .affil sup,
 .affil-notes sup {
   font-size: 0.68em;
   font-weight: 700;
-  color: var(--stain);
+  color: var(--trim);
 }
 .affil sup { margin-left: 0.15em; }
 .affil-notes {
@@ -261,7 +281,7 @@ abbr.eq {
   padding: 0;
   list-style: none;
   font: 400 0.875rem/1.5 var(--sans);
-  color: var(--ink-3);
+  color: var(--on-band-2);
 }
 .affil-notes sup { margin-right: 0.35em; }
 
@@ -271,7 +291,7 @@ h2 {
   margin: 0 0 1rem;
   font: 700 clamp(1.45rem, 1.3rem + 0.5vw, 1.5625rem)/1.2 var(--sans);
   letter-spacing: -0.01em;
-  color: var(--stain);
+  color: var(--accent);
 }
 
 .prose { margin: 0; max-width: var(--measure); }
@@ -310,19 +330,20 @@ h2 {
   .opener__meta { grid-column: 1; grid-row: 2; align-self: start; }
 }
 
-/* Highlights: a destained panel under a Coomassie header strip */
+/* Highlights: a pale green panel under a forest header strip with gold trim */
 
 .highlights {
   align-self: start;
-  background: var(--destain);
+  background: var(--tint);
   border-radius: 3px;
   overflow: hidden;
 }
 .highlights h2 {
   margin: 0;
   padding: 0.55rem 1.3rem 0.5rem;
-  background: var(--stain);
-  color: var(--on-stain);
+  background: var(--accent);
+  color: var(--on-accent);
+  border-bottom: 3px solid var(--trim);
   font-size: 1rem;
   letter-spacing: 0;
 }
@@ -336,7 +357,7 @@ h2 {
   line-height: 1.45;
 }
 .highlights li + li { margin-top: 0.7rem; }
-.highlights li::marker { color: var(--stain); }
+.highlights li::marker { color: var(--trim); }
 
 .opener__meta h2 { font-size: 1rem; }
 .keywords ul,
@@ -367,7 +388,7 @@ h2 {
   margin: 0;
   padding-top: 0.1rem;
   font: 700 1rem/1.3 var(--sans);
-  color: var(--stain);
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
 .pub__body > p { margin: 0; }
@@ -378,7 +399,7 @@ h2 {
   max-width: 52ch;
 }
 .pub__title a { color: var(--ink); text-decoration: none; }
-.pub__title a:hover { color: var(--stain); text-decoration: underline; text-decoration-thickness: 1px; }
+.pub__title a:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; }
 .pub__authors { color: var(--ink-2); font-size: 1rem; line-height: 1.5; }
 .pub__kind {
   font: 500 0.9375rem/1.4 var(--sans);
@@ -417,7 +438,7 @@ h2 {
   padding: 0.25rem 0;
   border: 0;
   background: none;
-  color: var(--stain);
+  color: var(--accent);
   font: inherit;
   cursor: pointer;
 }
@@ -431,7 +452,7 @@ h2 {
   max-width: var(--measure);
   margin-top: 0.85rem;
   padding: 1rem 1.15rem 1.1rem;
-  background: var(--destain);
+  background: var(--tint);
   border-radius: 3px;
   font: 400 0.9375rem/1.5 var(--sans);
   transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
@@ -465,16 +486,16 @@ h2 {
   align-items: center;
   gap: 0.35rem;
   padding: 0.35rem 0.65rem;
-  border: 1px solid var(--destain-edge);
+  border: 1px solid var(--tint-edge);
   border-radius: 4px;
   background: var(--paper);
-  color: var(--stain);
+  color: var(--accent);
   font: 600 0.8125rem/1.2 var(--sans);
   cursor: pointer;
   transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
 }
-.copy:hover { border-color: var(--stain); }
-.copy[data-state="copied"] { background: var(--stain); border-color: var(--stain); color: var(--on-stain); }
+.copy:hover { border-color: var(--accent); }
+.copy[data-state="copied"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 
 /* Home: positions summary */
 
@@ -538,7 +559,7 @@ h2 {
   list-style: square;
 }
 .entry li + li { margin-top: 0.4rem; }
-.entry li::marker { color: var(--stain); }
+.entry li::marker { color: var(--trim); }
 
 @media (min-width: 46rem) {
   .entry { grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: 2rem; }
@@ -584,10 +605,12 @@ h2 {
 /* Running foot */
 
 .running-foot {
-  border-top: 1px solid var(--rule);
+  background: var(--band);
+  border-top: 4px solid var(--trim);
   font: 400 0.875rem/1.5 var(--sans);
-  color: var(--ink-3);
+  color: var(--on-band-2);
 }
+.running-foot a { color: var(--on-band); }
 .running-foot__inner {
   max-width: var(--page);
   margin-inline: auto;
@@ -609,6 +632,7 @@ h2 {
 
 @media print {
   .running-head__nav, .pub__actions, .cite-panel, .skip { display: none !important; }
-  .running-head { border-top-width: 3px; }
+  .running-head, .title-block, .running-foot { background: none !important; border-image: none !important; color: #000 !important; }
+  .title, .deck, .affil, .affil-notes, .running-head__name { color: #000 !important; }
   a { color: inherit; text-decoration: none; }
 }
