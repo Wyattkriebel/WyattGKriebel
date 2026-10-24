@@ -1,7 +1,7 @@
 # Home page content. Edit freely; the layout reads everything from here.
 
 name: Wyatt G. Kriebel
-deck: Gene therapy research, computational protein modeling and cGMP manufacturing
+deck: Gene therapy research, computational protein modeling, and cGMP manufacturing
 
 affiliations:
   - mark: 1
@@ -18,17 +18,17 @@ highlights:
   - Primary subject matter expert for a new cGMP process, working with the FDA
 
 in_brief: >-
-  Wyatt Kriebel works across molecular biology, computation and
-  manufacturing. At the University of Pittsburgh he spent five years on AAV
+  I am Wyatt Kriebel, and I work across molecular biology, computation, and
+  manufacturing. At the University of Pittsburgh, I spent five years on AAV
   gene therapy for oculocutaneous albinism type 1, purifying vectors and
   building the behavioral assays used to measure vision in OCA1 mice, and
-  later simulated de novo designed enzymes with molecular dynamics. He now
-  manufactures gene therapies under cGMP at Krystal Biotech.
+  later simulated de novo-designed enzymes with molecular dynamics. I now work
+  in cGMP manufacturing of gene therapies at Krystal Biotech.
 
 interests: >-
-  Protein engineering and de novo enzyme design; molecular simulation and
-  modeling; AAV vector and capsid engineering; and the path from a designed
-  molecule to a manufacturable therapy.
+  Protein/enzyme engineering; molecular simulation and modeling; clean water
+  justice; AAV vector and capsid engineering; computational benchmarking; and
+  building biotechnologies to address a wide range of environmental concerns
 
 keywords:
   - AAV gene therapy
