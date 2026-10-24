@@ -48,6 +48,18 @@ schema: person
         <p class="more"><a href="{{ '/publications.html' | relative_url }}">All publications and presentations</a></p>
       </section>
 
+      <section aria-labelledby="h-projects">
+        <h2 id="h-projects">Projects</h2>
+        <div class="pub-list">
+          {%- for pr in site.data.projects %}
+          {%- if pr.home %}
+          {% include project.html project=pr %}
+          {%- endif %}
+          {%- endfor %}
+        </div>
+        <p class="more"><a href="{{ '/projects.html' | relative_url }}">All projects</a></p>
+      </section>
+
       <section aria-labelledby="h-interests">
         <h2 id="h-interests">Research interests</h2>
         <p class="prose">{{ p.interests }}</p>

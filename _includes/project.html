@@ -1,0 +1,24 @@
+{%- assign pr = include.project -%}
+<article class="pub pub--project" id="project-{{ pr.id }}">
+  <div class="pub__body">
+    <h3 class="pub__title">
+      {%- if pr.play -%}
+      <a href="{{ pr.play | relative_url }}">{{ pr.name }}</a>
+      {%- else -%}
+      <a href="{{ pr.repo }}">{{ pr.name }}</a>
+      {%- endif -%}
+    </h3>
+    <p class="pub__kind">{{ pr.kind }}</p>
+    <p class="pub__summary">{{ pr.summary }}</p>
+    {%- if include.full and pr.detail %}
+    <p class="pub__summary">{{ pr.detail }}</p>
+    {%- endif %}
+    <p class="pub__history">{{ pr.status }}<span class="sep" aria-hidden="true">&middot;</span>{{ pr.stack }}</p>
+    <div class="pub__actions">
+      {%- if pr.play %}
+      <a class="pub__doi" href="{{ pr.play | relative_url }}">Play the game</a>
+      {%- endif %}
+      <a class="pub__doi" href="{{ pr.repo }}">Code on GitHub{% include icon.html name='external' %}</a>
+    </div>
+  </div>
+</article>

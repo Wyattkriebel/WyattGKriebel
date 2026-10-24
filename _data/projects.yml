@@ -1,0 +1,33 @@
+# Projects, newest or most active first. `home: true` lists a project on the
+# home page. `play` is a path on this site; `repo` is the GitHub repository.
+
+- id: sidechain
+  name: Sidechain
+  kind: Browser game for biochemistry teaching
+  status: In development
+  stack: Python and JavaScript
+  home: true
+  summary: >-
+    A daily five-residue peptide puzzle for undergraduate biochemistry, with a
+    scaffolded high-school mode. Guesses are scored on side-chain chemistry
+    rather than letters, and solving reveals the real protein motif you built.
+  detail: >-
+    Each position reports residue class and a Kyte–Doolittle hydropathy
+    compass, and the peptide's integer mass turns the endgame into arithmetic.
+    Puzzle data is precomputed in Python, every mechanic was calibrated with a
+    solver before it shipped, and most of the 43 motifs are located
+    programmatically in UniProt sequences.
+  play: /sidechain/
+  repo: https://github.com/Wyattkriebel/Sidechain
+
+- id: 6ppd-quinone
+  name: 6PPD-quinone binder design
+  kind: Computational protein design
+  status: Early stage
+  stack: Protein design workflow
+  home: true
+  summary: >-
+    A workflow that chains protein design tools to generate computational
+    candidate binders for 6PPD-quinone, the toxic oxidation product of the
+    tire-rubber antioxidant 6PPD.
+  repo: https://github.com/Wyattkriebel/6PPD-Quinone-Build

@@ -1,0 +1,1583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sidechain</title>
+<meta name="description" content="Sidechain: a daily five-residue peptide puzzle for biochemistry. The feedback reports side-chain chemistry, not letters. By Wyatt G. Kriebel.">
+<link rel="canonical" href="https://wyattkriebel.com/sidechain/">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* tokens.css — shared design tokens for the protein-games suite.
+   Light palette is defined on bare :root; dark is redefined twice so that
+   both the OS setting and an explicit data-theme stamp resolve correctly. */
+
+:root {
+  /* ground + ink */
+  --paper:        #EFF1EC;
+  --surface:      #FFFFFF;
+  --sunk:         #E4E8E0;
+  --ink:          #191C18;
+  --ink-2:        #4F5850;
+  --ink-3:        #7C857C;
+  --rule:         #D3D9CE;
+  --rule-strong:  #B9C2B4;
+
+  /* side-chain class colours — positive/negative follow the standard
+     electrostatic convention (blue basic, red acidic) */
+  --c-aliphatic:      #8A7620;
+  --c-aromatic:       #7B4E9E;
+  --c-polar:          #1F7A6C;
+  --c-positive:       #2260A6;
+  --c-negative:       #BC432B;
+  --c-conformational: #A83C72;
+
+  /* class tints for ringed tiles */
+  --t-aliphatic:      #F3EDD5;
+  --t-aromatic:       #EFE6F6;
+  --t-polar:          #DCEFEA;
+  --t-positive:       #DEEAF7;
+  --t-negative:       #F8E3DE;
+  --t-conformational: #F8E2ED;
+
+  /* wrong-class tiles: filled, so they never read as "not yet guessed" */
+  --miss-bg:  #C6CDC3;
+  --miss-ink: #656D63;
+
+  --good:  #2C7A4B;
+  --warn:  #A2671B;
+  --bad:   #A93B2C;
+
+  --shadow-sm: 0 1px 2px rgba(25,28,24,.07);
+  --shadow-md: 0 2px 4px rgba(25,28,24,.06), 0 10px 26px rgba(25,28,24,.08);
+
+  --f-display: "Bricolage Grotesque", "Helvetica Neue", sans-serif;
+  --f-body:    "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --f-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --r-sm: 3px;
+  --r-md: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #131614;
+    --surface:      #1C201D;
+    --sunk:         #181C19;
+    --ink:          #E9EDE7;
+    --ink-2:        #A2ACA2;
+    --ink-3:        #78827A;
+    --rule:         #2B312C;
+    --rule-strong:  #3D453E;
+
+    --c-aliphatic:      #D6BC52;
+    --c-aromatic:       #BA8FDD;
+    --c-polar:          #4FC0AC;
+    --c-positive:       #6BA8E8;
+    --c-negative:       #E8836C;
+    --c-conformational: #E88BB8;
+
+    --t-aliphatic:      #2E2A17;
+    --t-aromatic:       #292031;
+    --t-polar:          #15302C;
+    --t-positive:       #152838;
+    --t-negative:       #331F1A;
+    --t-conformational: #331D28;
+
+    --good: #5FBF83;
+    --warn: #D6A050;
+    --bad:  #E0786A;
+    --miss-bg:  #39413A;
+    --miss-ink: #949E95;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.45);
+    --shadow-md: 0 2px 4px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:        #131614;
+  --surface:      #1C201D;
+  --sunk:         #181C19;
+  --ink:          #E9EDE7;
+  --ink-2:        #A2ACA2;
+  --ink-3:        #78827A;
+  --rule:         #2B312C;
+  --rule-strong:  #3D453E;
+
+  --c-aliphatic:      #D6BC52;
+  --c-aromatic:       #BA8FDD;
+  --c-polar:          #4FC0AC;
+  --c-positive:       #6BA8E8;
+  --c-negative:       #E8836C;
+  --c-conformational: #E88BB8;
+
+  --t-aliphatic:      #2E2A17;
+  --t-aromatic:       #292031;
+  --t-polar:          #15302C;
+  --t-positive:       #152838;
+  --t-negative:       #331F1A;
+  --t-conformational: #331D28;
+
+  --good: #5FBF83;
+  --warn: #D6A050;
+  --bad:  #E0786A;
+    --miss-bg:  #39413A;
+    --miss-ink: #949E95;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.45);
+  --shadow-md: 0 2px 4px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.3);
+}
+
+/* style.css — Sidechain */
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  padding-inline: 16px;
+  padding-block: 0 24px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  max-width: 470px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--c-positive); outline-offset: 2px; }
+
+/* ── header ───────────────────────────────────────────────────────────── */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 12px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.brand {
+  font-family: var(--f-display);
+  font-size: 1.32rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.brand .dot { color: var(--c-polar); }
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  color: var(--ink-2);
+  padding: 0;
+}
+.icon-btn:hover { border-color: var(--rule-strong); color: var(--ink); }
+.icon-btn svg { width: 16px; height: 16px; display: block; }
+
+.modes {
+  display: flex;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.modes button {
+  background: none;
+  border: 0;
+  padding: .3rem .6rem;
+  font-size: .74rem;
+  font-family: var(--f-mono);
+  letter-spacing: .03em;
+  color: var(--ink-3);
+}
+.modes button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ── puzzle meta line ─────────────────────────────────────────────────── */
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+  padding-block: 9px;
+  text-transform: uppercase;
+}
+.meta .right { color: var(--ink-2); }
+
+.target {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: .18rem .5rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-family: var(--f-mono);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.target span { font-size: .64rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+.target b {
+  font-size: .96rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ── board ────────────────────────────────────────────────────────────── */
+
+.board {
+  display: grid;
+  gap: 6px;
+  justify-content: center;
+  padding-block: 4px 10px;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  position: relative;      /* anchors the mass gutter */
+}
+
+/* Reserve room on the right, so the five tiles stay optically centred. */
+.board.with-mass, .hints.with-mass { padding-right: 52px; }
+.board.with-mass .tile, .hints.with-mass .hint { width: clamp(40px, 13.5vw, 52px); }
+
+/* mass gutter — the second deduction channel. Positioned out of the grid
+   flow so it never squeezes or offsets the tiles. */
+.mass {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  bottom: 0;
+  width: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 7px;
+  font-family: var(--f-mono);
+  line-height: 1.15;
+}
+.mass b {
+  font-size: .8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.mass i {
+  font-style: normal;
+  font-size: .68rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+}
+.mass i.under { color: var(--c-positive); }
+.mass i.over  { color: var(--c-negative); }
+.mass i.ok    { color: var(--good); }
+.mass.partial b { color: var(--ink-3); font-weight: 500; }
+
+.tile {
+  --tc: var(--rule-strong);
+  --tt: transparent;
+  position: relative;
+  aspect-ratio: 1 / 1.1;
+  width: clamp(44px, 15.4vw, 55px);
+  border: 2px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  font-family: var(--f-mono);
+  transition: transform .12s ease, background-color .18s ease, border-color .18s ease;
+}
+.tile .aa {
+  font-size: clamp(1.4rem, 5.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1;
+  align-self: end;
+  padding-bottom: 1px;
+}
+.tile .cmp {
+  font-size: .68rem;
+  line-height: 1.5;
+  height: 1.05rem;
+  color: var(--ink-3);
+  align-self: start;
+}
+
+.tile.typed { border-color: var(--rule-strong); }
+.tile.pop { transform: scale(1.06); }
+
+/* revealed states */
+.tile.exact {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: #fff;
+}
+:root[data-theme="dark"] .tile.exact,
+:root:not([data-theme="light"]) .tile.exact { color: #14170F; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .tile.exact { color: #fff; }
+}
+.tile.exact .cmp { color: inherit; opacity: .8; }
+
+.tile.klass {
+  background: var(--tt);
+  border-color: var(--tc);
+  color: var(--tc);
+}
+.tile.klass .cmp { color: var(--tc); opacity: .85; }
+
+/* Filled, not outlined — a wrong-class tile must never look like an empty one. */
+.tile.miss {
+  background: var(--miss-bg);
+  border-color: var(--miss-bg);
+  color: var(--miss-ink);
+}
+.tile.miss .cmp { color: var(--miss-ink); }
+
+/* easy-mode class hint strip under each column */
+.hints {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+.hint {
+  width: clamp(44px, 15.4vw, 55px);
+  text-align: center;
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  padding: 2px 0;
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--tc);
+  color: var(--tc);
+  background: var(--tt);
+}
+
+/* ── keyboard ─────────────────────────────────────────────────────────── */
+
+.pad { margin-top: auto; padding-top: 10px; }
+
+.krow {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.klabel {
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--tc);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kkeys { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.key {
+  flex: 1 1 0;
+  min-width: 30px;
+  max-width: 46px;
+  padding: .3rem 0 .22rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--tc);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--tc);
+  font-family: var(--f-mono);
+  font-size: .95rem;
+  font-weight: 600;
+  line-height: 1;
+  position: relative;
+  transition: background-color .15s ease, opacity .15s ease;
+}
+.key .kr { font-size: .95rem; font-weight: 600; line-height: 1.05; }
+.key .km {
+  font-size: .56rem;
+  font-weight: 500;
+  line-height: 1.1;
+  opacity: .7;
+  font-variant-numeric: tabular-nums;
+}
+.key:hover { background: var(--tt); }
+.key.hot { background: var(--tc); color: var(--surface); box-shadow: var(--shadow-sm); }
+:root[data-theme="dark"] .key.hot { color: #14170F; }
+.key.dead { opacity: .26; border-color: var(--rule); color: var(--ink-3); background: var(--sunk); }
+
+.actions { display: flex; gap: 6px; margin-top: 9px; }
+.actions button {
+  flex: 1;
+  padding: .6rem 0;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule-strong);
+  background: var(--surface);
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.actions .primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.actions button:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── toast ────────────────────────────────────────────────────────────── */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 58px);
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: .45rem .85rem;
+  border-radius: var(--r-sm);
+  font-size: .85rem;
+  z-index: 60;
+  box-shadow: var(--shadow-md);
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+
+/* ── sheet (reveal / stats / help) ────────────────────────────────────── */
+
+.scrim {
+  position: fixed; inset: 0;
+  background: rgba(10,12,10,.45);
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+.sheet {
+  background: var(--surface);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-md);
+  width: min(430px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 20px;
+}
+.sheet h2 {
+  font-family: var(--f-display);
+  font-size: 1.24rem;
+  font-weight: 700;
+  margin: 0 0 2px;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.sheet .sub {
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 14px;
+}
+.sheet p { margin: 0 0 .85em; font-size: .93rem; color: var(--ink-2); }
+.sheet p.lead { color: var(--ink); }
+.sheet .close { float: right; margin: -4px -4px 0 8px; }
+
+.peptide {
+  display: flex; gap: 5px; margin: 0 0 14px; flex-wrap: wrap;
+}
+.peptide span {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: .3rem .5rem;
+  border-radius: var(--r-sm);
+  background: var(--tt);
+  color: var(--tc);
+  border: 1px solid var(--tc);
+  line-height: 1;
+}
+
+.massline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--f-mono);
+  font-size: .76rem;
+  margin: -6px 0 14px;
+  color: var(--ink-2);
+}
+.massline span { display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.massline span i { font-style: normal; font-size: .62rem; color: var(--ink-3); }
+.massline em { font-style: normal; color: var(--ink-3); }
+.massline strong { font-size: .9rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.prov {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .12rem .4rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+.prov.uniprot    { color: var(--good); }
+.prov.literature { color: var(--warn); }
+.prov.engineered { color: var(--ink-3); }
+
+.srcline {
+  font-size: .85rem;
+  color: var(--ink-2);
+  border-top: 1px solid var(--rule);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+.srcline a { color: var(--c-positive); }
+
+.statgrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 0 0 16px;
+}
+.statgrid div { text-align: center; }
+.statgrid b {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.statgrid span {
+  font-size: .66rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--ink-3);
+}
+
+.dist { display: grid; gap: 3px; margin-bottom: 16px; }
+.dist .drow {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: .76rem;
+}
+.dist .barwrap { background: var(--sunk); border-radius: 2px; }
+.dist .bar {
+  background: var(--rule-strong);
+  color: var(--ink);
+  border-radius: 2px;
+  padding: .1rem .35rem;
+  text-align: right;
+  min-width: 1.7rem;
+  font-variant-numeric: tabular-nums;
+}
+.dist .drow.hit .bar { background: var(--c-polar); color: var(--surface); }
+:root[data-theme="dark"] .dist .drow.hit .bar { color: #14170F; }
+
+.sharebox {
+  font-family: var(--f-mono);
+  font-size: .76rem;
+  line-height: 1.5;
+  white-space: pre;
+  background: var(--sunk);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  padding: .6rem .7rem;
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.legend { display: grid; gap: 7px; margin: 0 0 14px; }
+.legend .lrow { display: grid; grid-template-columns: 62px 1fr; gap: 10px; align-items: center; font-size: .87rem; color: var(--ink-2); }
+.legend .swatch {
+  height: 30px;
+  border-radius: var(--r-sm);
+  display: grid; place-items: center;
+  font-family: var(--f-mono); font-weight: 700; font-size: .95rem;
+  border: 2px solid var(--rule);
+}
+.legend .swatch.exact { background: var(--c-polar); border-color: var(--c-polar); color: #fff; }
+:root[data-theme="dark"] .legend .swatch.exact { color: #14170F; }
+.legend .swatch.klass { background: var(--t-polar); border-color: var(--c-polar); color: var(--c-polar); }
+.legend .swatch.miss  { background: var(--miss-bg); border-color: var(--miss-bg); color: var(--miss-ink); }
+
+.classtable { display: grid; gap: 4px; margin-bottom: 14px; }
+.classtable .crow {
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
+  gap: 9px;
+  align-items: center;
+  font-size: .85rem;
+  color: var(--ink-2);
+}
+.classtable .g { color: var(--tc); font-size: .8rem; text-align: center; }
+.classtable .r { font-family: var(--f-mono); color: var(--tc); font-weight: 600; letter-spacing: .08em; }
+
+.foot {
+  text-align: center;
+  font-size: .72rem;
+  color: var(--ink-3);
+  padding-top: 14px;
+}
+.foot a { color: var(--ink-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 380px) {
+  .krow { grid-template-columns: 58px 1fr; gap: 6px; }
+  .klabel { font-size: .56rem; }
+}
+
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="bar">
+    <h1 class="brand">Sidechain<span class="dot">.</span></h1>
+
+    <div class="modes" role="group" aria-label="Difficulty">
+      <button type="button" data-mode="easy" aria-pressed="false">Easy</button>
+      <button type="button" data-mode="core" aria-pressed="true">Core</button>
+      <button type="button" data-mode="hard" aria-pressed="false">Hard</button>
+    </div>
+
+    <button type="button" class="icon-btn" id="btn-stats" aria-label="Statistics" title="Statistics">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M2 14V9M6 14V4M10 14V7M14 14V2" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button type="button" class="icon-btn" id="btn-help" aria-label="How to play" title="How to play">
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M6.2 6.1a1.85 1.85 0 1 1 2.1 2.2v1.1" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="8.3" cy="11.6" r=".85" fill="currentColor"/>
+      </svg>
+    </button>
+  </header>
+
+  <div class="meta">
+    <span id="meta-left">&nbsp;</span>
+    <span class="target" id="target" hidden></span>
+    <span class="right" id="meta-right">&nbsp;</span>
+  </div>
+
+  <div class="hints" id="hints" hidden aria-label="Class of each position"></div>
+  <main class="board" id="board" aria-label="Guess board"></main>
+
+  <div class="pad" id="pad" aria-label="Residue keyboard"></div>
+
+  <p class="foot">
+    Side-chain classes and Kyte&ndash;Doolittle hydropathy.
+    Motifs cited to UniProt &middot; <a href="https://github.com/">source</a>
+  </p>
+
+</div>
+<script>window.SIDECHAIN_DATA={"schemaVersion":1,"generator":"pipeline/build_sidechain.py","license":"CC BY 4.0","classes":{"aliphatic":{"label":"Aliphatic","residues":"AVLIM","glyph":"■"},"aromatic":{"label":"Aromatic","residues":"FWY","glyph":"◆"},"polar":{"label":"Polar","residues":"STNQC","glyph":"●"},"positive":{"label":"Positive","residues":"KRH","glyph":"▲"},"negative":{"label":"Negative","residues":"DE","glyph":"▼"},"conformational":{"label":"Conformational","residues":"GP","glyph":"◇"}},"residueClass":{"A":"aliphatic","V":"aliphatic","L":"aliphatic","I":"aliphatic","M":"aliphatic","F":"aromatic","W":"aromatic","Y":"aromatic","S":"polar","T":"polar","N":"polar","Q":"polar","C":"polar","K":"positive","R":"positive","H":"positive","D":"negative","E":"negative","G":"conformational","P":"conformational"},"hydropathy":{"A":1.8,"R":-4.5,"N":-3.5,"D":-3.5,"C":2.5,"Q":-3.5,"E":-3.5,"G":-0.4,"H":-3.2,"I":4.5,"L":3.8,"K":-3.9,"M":1.9,"F":2.8,"P":-1.6,"S":-0.8,"T":-0.7,"W":-0.9,"Y":-1.3,"V":4.2},"residueMass":{"G":57,"A":71,"S":87,"P":97,"V":99,"T":101,"C":103,"L":113,"I":113,"N":114,"D":115,"Q":128,"K":128,"E":129,"M":131,"H":137,"F":147,"R":156,"Y":163,"W":186},"water":18,"dailyMinPool":50,"names":{"A":"Alanine","C":"Cysteine","D":"Aspartate","E":"Glutamate","F":"Phenylalanine","G":"Glycine","H":"Histidine","I":"Isoleucine","K":"Lysine","L":"Leucine","M":"Methionine","N":"Asparagine","P":"Proline","Q":"Glutamine","R":"Arginine","S":"Serine","T":"Threonine","V":"Valine","W":"Tryptophan","Y":"Tyrosine"},"puzzles":[{"id":"p10599-thioredoxin-redox-active-site","seq":"WCGPC","name":"Thioredoxin redox active site","source":"Thioredoxin (human)","acc":"P10599","pos":31,"mass":564,"massPool":15660,"dailyEligible":true,"verified":"uniprot","blurb":"The two cysteines here swap between a free dithiol and an internal disulfide, and that cycle is how thioredoxin hands reducing power to other proteins. The rigid Cys-Gly-Pro-Cys spacing holds the pair at exactly the distance a disulfide needs."},{"id":"p01112-p-loop-small-gtpase","seq":"GGVGK","name":"P-loop, small GTPase","source":"HRas (human)","acc":"P01112","pos":12,"mass":416,"massPool":205,"dailyEligible":true,"verified":"uniprot","blurb":"This glycine-rich loop wraps the phosphates of bound GTP, and the glycines are there because anything with a side chain would collide with them. Mutations at the following residue, Gly12, lock Ras in its active state and are among the most common oncogenic changes in human cancer."},{"id":"p01112-caax-prenylation-box","seq":"KCVLS","name":"CAAX prenylation box","source":"HRas (human)","acc":"P01112","pos":185,"mass":548,"massPool":14690,"dailyEligible":true,"verified":"uniprot","blurb":"The very end of Ras, where a farnesyl lipid is attached to the cysteine so the protein can stick to the inner face of the membrane. Cut this tail off and Ras still binds GTP perfectly but can no longer signal, because it is floating in the cytosol."},{"id":"p0dp23-ef-hand-calcium-loop","seq":"DKDGD","name":"EF-hand calcium loop","source":"Calmodulin (human)","acc":"P0DP23","pos":21,"mass":548,"massPool":14690,"dailyEligible":true,"verified":"uniprot","blurb":"A twelve-residue loop whose aspartates and backbone carbonyls cage a single Ca2+ ion. Calmodulin carries four of these, and filling them swings the protein open to expose a hydrophobic groove that grabs its targets."},{"id":"p00760-catalytic-triad-histidine","seq":"SAAHC","name":"Catalytic triad — histidine","source":"Trypsinogen (bovine)","acc":"P00760","pos":60,"mass":487,"massPool":5025,"dailyEligible":true,"verified":"uniprot","blurb":"The histidine of the serine protease catalytic triad, which pulls a proton off the catalytic serine so it can attack the substrate. It sits far from the other two triad members in sequence and only meets them once the protein folds."},{"id":"p00760-catalytic-triad-aspartate","seq":"NNDIM","name":"Catalytic triad — aspartate","source":"Trypsinogen (bovine)","acc":"P00760","pos":105,"mass":605,"massPool":20870,"dailyEligible":true,"verified":"uniprot","blurb":"The buried aspartate that orients the triad histidine and stabilises it once it picks up a proton. It never touches the substrate; it exists to make the histidine a better base."},{"id":"p00760-catalytic-triad-serine","seq":"GDSGG","name":"Catalytic triad — serine","source":"Trypsinogen (bovine)","acc":"P00760","pos":198,"mass":391,"massPool":180,"dailyEligible":true,"verified":"uniprot","blurb":"The nucleophilic serine that actually attacks the peptide bond, embedded in a Gly-Asp-Ser-Gly-Gly motif so conserved it is used to identify serine proteases from sequence alone. The flanking glycines leave the serine sterically exposed."},{"id":"p00760-enterokinase-activation-site","seq":"DDDDK","name":"Enterokinase activation site","source":"Trypsinogen (bovine)","acc":"P00760","pos":19,"mass":606,"massPool":21020,"dailyEligible":true,"verified":"uniprot","blurb":"Four aspartates and a lysine mark where enterokinase cuts trypsinogen to switch on trypsin. The same sequence is used as an engineered cleavage tag precisely because so little else in a proteome looks like it."},{"id":"p00760-new-n-terminus-after-activation","seq":"IVGGY","name":"New N-terminus after activation","source":"Trypsinogen (bovine)","acc":"P00760","pos":24,"mass":507,"massPool":6665,"dailyEligible":true,"verified":"uniprot","blurb":"The moment trypsinogen is cut, this isoleucine becomes a free N-terminus and buries itself in a pocket, snapping the active site into shape. Zymogen activation is a conformational switch triggered by a single new charge."},{"id":"p00698-lysozyme-catalytic-glutamate","seq":"KFESN","name":"Lysozyme catalytic glutamate","source":"Lysozyme C (chicken)","acc":"P00698","pos":51,"mass":623,"massPool":18035,"dailyEligible":true,"verified":"uniprot","blurb":"Glu35 donates a proton to the glycosidic bond it is about to break, working as a general acid. Its unusually high pKa comes from sitting in a hydrophobic pocket, which is what keeps it protonated at working pH."},{"id":"p00698-lysozyme-catalytic-aspartate","seq":"STDYG","name":"Lysozyme catalytic aspartate","source":"Lysozyme C (chicken)","acc":"P00698","pos":68,"mass":541,"massPool":9550,"dailyEligible":true,"verified":"uniprot","blurb":"Asp52 is the second half of lysozyme's catalytic pair, stabilising the positively charged intermediate that forms as the sugar ring is cleaved. It sits in a polar environment and stays deprotonated — the mirror image of Glu35 next door."},{"id":"p00441-copper-site-cu-zn-superoxide-dismutase","seq":"HVHEF","name":"Copper site, Cu/Zn superoxide dismutase","source":"SOD1 (human)","acc":"P00441","pos":47,"mass":667,"massPool":13365,"dailyEligible":true,"verified":"uniprot","blurb":"Two of the histidines that hold the catalytic copper, which cycles between Cu(I) and Cu(II) to dismutate superoxide. SOD1 runs close to the diffusion limit, which makes it one of the fastest enzymes known."},{"id":"p02766-transthyretin-amyloid-hotspot","seq":"NVAVH","name":"Transthyretin amyloid hotspot","source":"Transthyretin (human)","acc":"P02766","pos":47,"mass":538,"massPool":6360,"dailyEligible":true,"verified":"uniprot","blurb":"The valine here is position 30 of mature transthyretin, and its replacement by methionine is the most common cause of hereditary transthyretin amyloidosis. A single hydrophobic swap destabilises the tetramer enough for the monomers to misfold."},{"id":"p02766-transthyretin-n-terminus","seq":"GPTGT","name":"Transthyretin N-terminus","source":"Transthyretin (human)","acc":"P02766","pos":21,"mass":431,"massPool":1125,"dailyEligible":true,"verified":"uniprot","blurb":"The start of mature transthyretin after its signal peptide is removed. Glycine and threonine make a flexible, polar N-terminal arm that stays disordered even in the crystal structures."},{"id":"p69441-walker-a-motif","seq":"PGAGK","name":"Walker A motif","source":"Adenylate kinase (E. coli)","acc":"P69441","pos":9,"mass":428,"massPool":180,"dailyEligible":true,"verified":"uniprot","blurb":"The bacterial version of the phosphate-binding loop, doing the same job as the Ras P-loop with a different sequence. Comparing the two is a clean demonstration that structure is conserved far more tightly than sequence."},{"id":"p69441-adenylate-kinase-lid-hinge","seq":"DGFPR","name":"Adenylate kinase LID hinge","source":"Adenylate kinase (E. coli)","acc":"P69441","pos":84,"mass":590,"massPool":21160,"dailyEligible":true,"verified":"uniprot","blurb":"Part of the mobile LID domain that clamps shut over bound nucleotide during catalysis. Adenylate kinase is a textbook case of induced fit — the closed and open structures differ by around 30 angstroms."},{"id":"p00918-zinc-site-carbonic-anhydrase-ii","seq":"FHFHW","name":"Zinc site, carbonic anhydrase II","source":"Carbonic anhydrase 2 (human)","acc":"P00918","pos":93,"mass":772,"massPool":1050,"dailyEligible":true,"verified":"uniprot","blurb":"Two of the three histidines that hold the catalytic zinc, which lowers the pKa of a bound water molecule enough to strip a proton off it at neutral pH. The resulting hydroxide is what attacks CO2."},{"id":"p68871-haemoglobin-beta-n-terminus","seq":"TPEEK","name":"Haemoglobin beta N-terminus","source":"Haemoglobin subunit beta (human)","acc":"P68871","pos":5,"mass":602,"massPool":19460,"dailyEligible":true,"verified":"uniprot","blurb":"Residue 6 of the beta chain is the glutamate that becomes valine in sickle cell disease. Swapping one charged residue for a hydrophobic one creates a sticky patch that lets deoxygenated haemoglobin polymerise into fibres."},{"id":"p68871-proximal-histidine-region","seq":"LAHHF","name":"Proximal histidine region","source":"Haemoglobin subunit beta (human)","acc":"P68871","pos":115,"mass":623,"massPool":18035,"dailyEligible":true,"verified":"uniprot","blurb":"The proximal histidine bonds directly to the heme iron and is physically pulled when oxygen binds on the far side. That tug is transmitted through the helix and is the mechanical basis of cooperative oxygen binding."},{"id":"p69905-haemoglobin-alpha-n-terminus","seq":"VLSPA","name":"Haemoglobin alpha N-terminus","source":"Haemoglobin subunit alpha (human)","acc":"P69905","pos":2,"mass":485,"massPool":3285,"dailyEligible":true,"verified":"uniprot","blurb":"The alpha chain begins differently from beta despite the two folding almost identically. Comparing the first few residues of each is a quick way to see how far two sequences can drift while keeping one shape."},{"id":"p01308-insulin-b-chain-n-terminus","seq":"FVNQH","name":"Insulin B chain N-terminus","source":"Insulin (human)","acc":"P01308","pos":25,"mass":643,"massPool":15825,"dailyEligible":true,"verified":"uniprot","blurb":"The start of the B chain, part of the surface that lets insulin monomers assemble into hexamers around zinc. Engineered changes in this region are what make fast-acting insulin analogues dissociate more quickly."},{"id":"p01308-insulin-a-chain-n-terminus","seq":"GIVEQ","name":"Insulin A chain N-terminus","source":"Insulin (human)","acc":"P01308","pos":90,"mass":544,"massPool":12605,"dailyEligible":true,"verified":"uniprot","blurb":"The A chain begins here, immediately followed by the cysteines that disulfide-bond it to the B chain. Insulin is synthesised as a single chain and only becomes two once the connecting C-peptide is excised."},{"id":"p01308-insulin-intrachain-disulfide","seq":"CCTSI","name":"Insulin intrachain disulfide","source":"Insulin (human)","acc":"P01308","pos":95,"mass":525,"massPool":7405,"dailyEligible":true,"verified":"uniprot","blurb":"Two adjacent cysteines, one bonding within the A chain and one reaching across to the B chain. Getting these pairings right is the hard part of producing insulin recombinantly."},{"id":"p0cg48-ubiquitin-n-terminus","seq":"MQIFV","name":"Ubiquitin N-terminus","source":"Polyubiquitin-C (human)","acc":"P0CG48","pos":1,"mass":636,"massPool":18130,"dailyEligible":true,"verified":"uniprot","blurb":"The opening strand of the beta-grasp fold, one of the most thermodynamically stable small domains known. Ubiquitin is so tolerant of heat and acid that boiling a lysate is a legitimate purification step."},{"id":"p0cg48-ubiquitin-lys48","seq":"FAGKQ","name":"Ubiquitin Lys48","source":"Polyubiquitin-C (human)","acc":"P0CG48","pos":45,"mass":549,"massPool":14435,"dailyEligible":true,"verified":"uniprot","blurb":"Chains built through this lysine are the canonical signal for proteasomal degradation. Four linked ubiquitins is roughly the threshold the proteasome recognises."},{"id":"p0cg48-ubiquitin-lys63","seq":"NIQKE","name":"Ubiquitin Lys63","source":"Polyubiquitin-C (human)","acc":"P0CG48","pos":60,"mass":630,"massPool":17405,"dailyEligible":true,"verified":"uniprot","blurb":"Chains through Lys63 do not mean destruction — they signal in DNA repair and NF-kB activation. Same protein, same modification, different lysine, opposite outcome."},{"id":"p0cg48-ubiquitin-c-terminal-tail","seq":"RLRGG","name":"Ubiquitin C-terminal tail","source":"Polyubiquitin-C (human)","acc":"P0CG48","pos":72,"mass":557,"massPool":13640,"dailyEligible":true,"verified":"uniprot","blurb":"The flexible tail whose terminal glycine forms an isopeptide bond to a target lysine. E1, E2 and E3 enzymes all handle this same five-residue tail."},{"id":"p02751-rgd-integrin-binding-motif","seq":"GRGDS","name":"RGD integrin-binding motif","source":"Fibronectin (human)","acc":"P02751","pos":null,"mass":490,"massPool":4720,"dailyEligible":true,"verified":"literature","blurb":"The tripeptide integrins read when they grip the extracellular matrix, presented here on an exposed loop. RGD peptides are grafted onto biomaterials to persuade cells to adhere to them."},{"id":"p05067-amyloid-beta-aggregation-core","seq":"KLVFF","name":"Amyloid-beta aggregation core","source":"Amyloid-beta A4 protein (human)","acc":"P05067","pos":null,"mass":652,"massPool":15970,"dailyEligible":true,"verified":"literature","blurb":"The central hydrophobic cluster of amyloid-beta, and the stretch that drives the peptide into cross-beta fibrils. Peptides copying this sequence were among the first designed aggregation inhibitors."},{"id":"p00800-hexxh-zinc-protease-motif","seq":"HELTH","name":"HExxH zinc protease motif","source":"Thermolysin (Bacillus)","acc":"P00800","pos":null,"mass":635,"massPool":19185,"dailyEligible":true,"verified":"literature","blurb":"Two histidines separated by two arbitrary residues, both coordinating a catalytic zinc, with the glutamate activating the attacking water. The HExxH signature identifies metalloproteases across otherwise unrelated families."},{"id":"p03070-sv40-classical-nls","seq":"KKKRK","name":"SV40 classical NLS","source":"Large T antigen (SV40)","acc":"P03070","pos":null,"mass":686,"massPool":9530,"dailyEligible":true,"verified":"literature","blurb":"A dense run of positive charge that importin-alpha reads as an instruction to carry the protein into the nucleus. It was the first nuclear localisation signal identified and is still the standard one to bolt onto engineered proteins."},{"id":"eng-polyhistidine-tag","seq":"HHHHH","name":"Polyhistidine tag","source":"Engineered sequence","acc":null,"pos":null,"mass":703,"massPool":6676,"dailyEligible":true,"verified":"engineered","blurb":"Histidines chelate immobilised nickel, which is the entire basis of IMAC purification. The imidazole ring is the only side chain in the standard twenty that coordinates a divalent metal well at neutral pH."},{"id":"eng-flag-tag","seq":"DYKDD","name":"FLAG tag","source":"Engineered sequence","acc":null,"pos":null,"mass":654,"massPool":14300,"dailyEligible":true,"verified":"engineered","blurb":"A short, highly charged epitope tag, deliberately hydrophilic so it stays on the protein surface and rarely disturbs folding. Its charge is also why FLAG-tagged proteins elute under mild conditions."},{"id":"eng-strep-tag-ii","seq":"WSHPQ","name":"Strep-tag II","source":"Engineered sequence","acc":null,"pos":null,"mass":653,"massPool":13615,"dailyEligible":true,"verified":"engineered","blurb":"Binds engineered streptavidin, and is competed off with biotin analogues under conditions gentle enough to keep complexes intact. The tryptophan does most of the binding work."},{"id":"eng-myc-epitope-tag","seq":"EQKLI","name":"Myc epitope tag","source":"Engineered sequence","acc":null,"pos":null,"mass":629,"massPool":16085,"dailyEligible":true,"verified":"engineered","blurb":"A linear epitope from the c-Myc protein, used because a well-characterised monoclonal antibody recognises it reliably. Linear epitopes are preferred as tags because they do not require a folded context."},{"id":"eng-ha-epitope-tag","seq":"YPYDV","name":"HA epitope tag","source":"Engineered sequence","acc":null,"pos":null,"mass":655,"massPool":12210,"dailyEligible":true,"verified":"engineered","blurb":"Taken from influenza haemagglutinin, and one of the smallest tags that still gives clean immunodetection. Its tyrosines make it easy to detect but also slightly more perturbing than FLAG."},{"id":"eng-tev-protease-site","seq":"NLYFQ","name":"TEV protease site","source":"Engineered sequence","acc":null,"pos":null,"mass":683,"massPool":10150,"dailyEligible":true,"verified":"engineered","blurb":"Tobacco etch virus protease cuts after the glutamine, leaving almost no scar on the released protein. This is how an affinity tag is removed after it has done its job on the column."},{"id":"eng-thrombin-cleavage-site","seq":"LVPRG","name":"Thrombin cleavage site","source":"Engineered sequence","acc":null,"pos":null,"mass":540,"massPool":6290,"dailyEligible":true,"verified":"engineered","blurb":"Thrombin cuts between the arginine and glycine, an older workhorse for tag removal. It is less specific than TEV, which is why internal cleavage of the target protein is a real risk."},{"id":"eng-sortase-a-recognition-motif","seq":"LPETG","name":"Sortase A recognition motif","source":"Engineered sequence","acc":null,"pos":null,"mass":515,"massPool":7925,"dailyEligible":true,"verified":"engineered","blurb":"Sortase cuts between threonine and glycine and ligates the remainder to an incoming polyglycine, making it a protein-ligation tool rather than just a protease. Bacteria use it to staple surface proteins to cell wall peptidoglycan."},{"id":"eng-caspase-3-cleavage-site","seq":"DEVDG","name":"Caspase-3 cleavage site","source":"Engineered sequence","acc":null,"pos":null,"mass":533,"massPool":13331,"dailyEligible":true,"verified":"engineered","blurb":"Caspase-3 cuts after the second aspartate, and this sequence is the basis of most apoptosis assays. Caspases are unusual among proteases in demanding an aspartate at the cut site."},{"id":"eng-factor-xa-cleavage-site","seq":"IEGRG","name":"Factor Xa cleavage site","source":"Engineered sequence","acc":null,"pos":null,"mass":530,"massPool":10240,"dailyEligible":true,"verified":"engineered","blurb":"Factor Xa cuts after the arginine, leaving no extra residues on the protein's new N-terminus. It comes from the blood clotting cascade, where this specificity controls prothrombin activation."},{"id":"eng-flexible-peptide-linker","seq":"GGGGS","name":"Flexible peptide linker","source":"Engineered sequence","acc":null,"pos":null,"mass":333,"massPool":5,"dailyEligible":false,"verified":"engineered","blurb":"The standard flexible linker for fusion proteins and single-chain antibodies. Glycine supplies backbone freedom and serine keeps the stretch soluble, so the two joined domains can move independently."},{"id":"eng-rigid-helical-linker","seq":"EAAAK","name":"Rigid helical linker","source":"Engineered sequence","acc":null,"pos":null,"mass":488,"massPool":4445,"dailyEligible":true,"verified":"engineered","blurb":"Forms a stable alpha helix through salt bridges between the glutamate and lysine, holding two fused domains at a fixed distance. Used when a flexible linker would let the domains interact when they should not."}]};</script>
+<script>
+/* game.js — Sidechain
+ *
+ * Guess a five-residue peptide. Feedback reports side-chain chemistry, not
+ * letters: a class tier per position plus a Kyte–Doolittle hydropathy compass.
+ *
+ * Expects a global SIDECHAIN_DATA (see data/puzzles.json).
+ * MIT licensed. Puzzle content CC BY 4.0.
+ */
+(function () {
+  "use strict";
+
+  var D = window.SIDECHAIN_DATA;
+  var PUZZLES = D.puzzles;
+  var CLASS_KEYS = Object.keys(D.classes);
+  var NS = "sidechain:v1:";
+
+  /* Guess limits are set from the solver calibration in
+     pipeline/test_sidechain.py, not by feel:
+       easy  classes + mass  mean 1.68, worst 3  -> 4
+       core  mass only       mean 3.43, worst 5  -> 5
+       hard  neither         mean 5.15, worst 8  -> 7                     */
+  var MODES = {
+    easy: { limit: 4, revealClasses: true,  revealMass: true,  label: "Easy" },
+    core: { limit: 5, revealClasses: false, revealMass: true,  label: "Core" },
+    hard: { limit: 7, revealClasses: false, revealMass: false, label: "Hard" }
+  };
+
+  var CMP = { up: "▲", down: "▼", same: "●" };
+  var SHARE_TIER = { 2: "█", 1: "▒", 0: "░" };
+  var SHARE_CMP = { 1: "↑", "-1": "↓", 0: "·" };
+
+  /* ── safe storage ──────────────────────────────────────────────────── */
+
+  var store = {
+    get: function (k, fallback) {
+      try {
+        var raw = window.localStorage.getItem(NS + k);
+        return raw == null ? fallback : JSON.parse(raw);
+      } catch (e) { return fallback; }
+    },
+    set: function (k, v) {
+      try { window.localStorage.setItem(NS + k, JSON.stringify(v)); return true; }
+      catch (e) { return false; }
+    }
+  };
+
+  /* ── chemistry helpers ─────────────────────────────────────────────── */
+
+  function classOf(r) { return D.residueClass[r]; }
+  function kd(r) { return D.hydropathy[r]; }
+  function resMass(r) { return D.residueMass[r]; }
+
+  /** Whole-dalton peptide mass: residue masses plus one water. */
+  function peptideMass(seq) {
+    var m = 0;
+    for (var i = 0; i < seq.length; i++) m += resMass(seq[i]);
+    return m + (seq.length ? D.water : 0);
+  }
+  /** Running total for a partly typed row — no water until it is complete. */
+  function partialMass(seq) {
+    var m = 0;
+    for (var i = 0; i < seq.length; i++) m += resMass(seq[i]);
+    return m;
+  }
+  function classColor(key) { return "var(--c-" + key + ")"; }
+  function classTint(key) { return "var(--t-" + key + ")"; }
+
+  function cmpDir(guessR, targetR) {
+    var d = kd(targetR) - kd(guessR);
+    if (Math.abs(d) < 1e-9) return 0;
+    return d > 0 ? 1 : -1;
+  }
+
+  /** Per-position feedback: tier 2 exact, 1 same class, 0 wrong class. */
+  function evaluate(guess, target) {
+    var out = [];
+    for (var i = 0; i < 5; i++) {
+      var g = guess[i], t = target[i];
+      out.push({
+        residue: g,
+        tier: g === t ? 2 : (classOf(g) === classOf(t) ? 1 : 0),
+        cmp: cmpDir(g, t)
+      });
+    }
+    return out;
+  }
+
+  /* ── deterministic daily selection ─────────────────────────────────── */
+
+  function hashStr(s) {
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = (h * 16777619) >>> 0;
+    }
+    return h >>> 0;
+  }
+
+  function localISODate(d) {
+    var y = d.getFullYear(),
+        m = String(d.getMonth() + 1).padStart(2, "0"),
+        day = String(d.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + day;
+  }
+
+  /* Puzzles whose mass is so rare that showing it gives the answer away are
+     kept out of the daily rotation. They remain available in practice mode. */
+  var DAILY_POOL = PUZZLES.filter(function (p) { return p.dailyEligible !== false; });
+  if (!DAILY_POOL.length) DAILY_POOL = PUZZLES;
+
+  function puzzleForDate(iso) { return DAILY_POOL[hashStr(iso) % DAILY_POOL.length]; }
+
+  /* ── game state ────────────────────────────────────────────────────── */
+
+  var S = {
+    mode: "core",
+    practice: false,
+    dateISO: localISODate(new Date()),
+    puzzle: null,
+    guesses: [],      // array of 5-char strings
+    current: "",
+    done: false,
+    won: false,
+    revealed: false
+  };
+
+  function stateKey() { return "state:" + S.mode + ":" + (S.practice ? "practice" : S.dateISO); }
+  function statsKey() { return "stats:" + S.mode; }
+
+  function blankStats() {
+    return { played: 0, won: 0, streak: 0, maxStreak: 0, score: 0,
+             dist: [0, 0, 0, 0, 0, 0, 0], lastDate: null };
+  }
+
+  function loadStats() {
+    var s = store.get(statsKey(), null);
+    if (!s || typeof s !== "object") return blankStats();
+    var b = blankStats();
+    for (var k in b) if (!(k in s)) s[k] = b[k];
+    if (!Array.isArray(s.dist)) s.dist = b.dist;
+    return s;
+  }
+
+  /* ── derived knowledge for the keyboard ────────────────────────────── */
+
+  /** Residues still possible at each position, given every guess so far. */
+  function possibleSets() {
+    var alphabet = Object.keys(D.hydropathy);
+    var sets = [];
+    for (var p = 0; p < 5; p++) {
+      var alive = {};
+      alphabet.forEach(function (r) { alive[r] = true; });
+      sets.push(alive);
+    }
+    S.guesses.forEach(function (g) {
+      var fb = evaluate(g, S.puzzle.seq);
+      for (var p = 0; p < 5; p++) {
+        var f = fb[p], gr = g[p], alive = sets[p];
+        Object.keys(alive).forEach(function (r) {
+          if (!alive[r]) return;
+          var ok;
+          if (f.tier === 2) ok = (r === gr);
+          else if (f.tier === 1) ok = (classOf(r) === classOf(gr) && r !== gr);
+          else ok = (classOf(r) !== classOf(gr));
+          if (ok && cmpDir(gr, r) !== f.cmp) ok = false;
+          if (!ok) alive[r] = false;
+        });
+      }
+    });
+    return sets;
+  }
+
+  /** key state per residue: hot (uniquely pinned somewhere), dead, or live */
+  function keyStates() {
+    var sets = possibleSets(), out = {};
+    var counts = sets.map(function (s) {
+      return Object.keys(s).filter(function (r) { return s[r]; });
+    });
+    Object.keys(D.hydropathy).forEach(function (r) {
+      var anywhere = false, pinned = false;
+      for (var p = 0; p < 5; p++) {
+        if (sets[p][r]) {
+          anywhere = true;
+          if (counts[p].length === 1) pinned = true;
+        }
+      }
+      out[r] = !anywhere ? "dead" : (pinned ? "hot" : "live");
+    });
+    return out;
+  }
+
+  /* ── scoring ───────────────────────────────────────────────────────── */
+
+  function chemistryStreak() {
+    var bonus = 0;
+    S.guesses.forEach(function (g) {
+      var fb = evaluate(g, S.puzzle.seq);
+      if (fb.every(function (f) { return f.tier >= 1; })) bonus += 25;
+    });
+    return bonus;
+  }
+
+  function roundScore() {
+    if (!S.won) return 0;
+    // relative to the mode's own limit, so a 5-guess core solve and a 7-guess
+    // hard solve are both worth the floor of 100 rather than the limit leaking
+    // a fixed constant into the score
+    return 100 * (MODES[S.mode].limit + 1 - S.guesses.length) + chemistryStreak();
+  }
+
+  /* ── DOM ───────────────────────────────────────────────────────────── */
+
+  var el = {};
+  function $(id) { return document.getElementById(id); }
+
+  function classStyle(key) {
+    return "--tc:" + classColor(key) + ";--tt:" + classTint(key) + ";";
+  }
+
+  function renderMeta() {
+    var n = PUZZLES.indexOf(S.puzzle) + 1;
+    el.metaLeft.textContent = S.practice
+      ? "Practice · #" + n
+      : S.dateISO + " · #" + n;
+    var left = MODES[S.mode].limit - S.guesses.length;
+    el.metaRight.textContent = S.done
+      ? (S.won ? "solved in " + S.guesses.length : "revealed")
+      : left + (left === 1 ? " guess left" : " guesses left");
+
+    // the target mass is the second deduction channel; hard mode withholds it
+    if (MODES[S.mode].revealMass) {
+      el.target.hidden = false;
+      el.target.innerHTML = "<span>target</span><b>" +
+        peptideMass(S.puzzle.seq) + "</b><span>Da</span>";
+    } else {
+      el.target.hidden = true;
+    }
+  }
+
+  function renderHints() {
+    el.hints.innerHTML = "";
+    if (!MODES[S.mode].revealClasses) { el.hints.hidden = true; return; }
+    el.hints.hidden = false;
+    for (var i = 0; i < 5; i++) {
+      var key = classOf(S.puzzle.seq[i]);
+      var d = document.createElement("div");
+      d.className = "hint";
+      d.setAttribute("style", classStyle(key));
+      d.textContent = D.classes[key].glyph;
+      d.title = D.classes[key].label;
+      el.hints.appendChild(d);
+    }
+    // keep the strip aligned with the board's reserved mass gutter
+    el.hints.classList.toggle("with-mass", MODES[S.mode].revealMass);
+  }
+
+  function renderBoard(popIndex) {
+    var limit = MODES[S.mode].limit;
+    var showMass = MODES[S.mode].revealMass;
+    var targetMass = peptideMass(S.puzzle.seq);
+    el.board.innerHTML = "";
+    el.board.classList.toggle("with-mass", showMass);
+    for (var r = 0; r < limit; r++) {
+      var row = document.createElement("div");
+      row.className = "row";
+      var submitted = r < S.guesses.length;
+      var fb = submitted ? evaluate(S.guesses[r], S.puzzle.seq) : null;
+      for (var c = 0; c < 5; c++) {
+        var t = document.createElement("div");
+        t.className = "tile";
+        var aa = document.createElement("div");
+        aa.className = "aa";
+        var cm = document.createElement("div");
+        cm.className = "cmp";
+
+        if (submitted) {
+          var f = fb[c];
+          var key = classOf(f.residue);
+          t.setAttribute("style", classStyle(key));
+          t.classList.add(f.tier === 2 ? "exact" : f.tier === 1 ? "klass" : "miss");
+          aa.textContent = f.residue;
+          cm.textContent = f.cmp === 1 ? CMP.up : f.cmp === -1 ? CMP.down : CMP.same;
+          t.setAttribute("aria-label",
+            f.residue + " " + (D.names[f.residue] || "") + ", " +
+            (f.tier === 2 ? "exact match" :
+             f.tier === 1 ? "correct class, wrong residue" : "wrong class") +
+            ", answer is " + (f.cmp === 1 ? "more" : f.cmp === -1 ? "less" : "equally") +
+            " hydrophobic");
+        } else if (r === S.guesses.length && c < S.current.length) {
+          t.classList.add("typed");
+          aa.textContent = S.current[c];
+          if (popIndex === c) t.classList.add("pop");
+        }
+        t.appendChild(aa); t.appendChild(cm);
+        row.appendChild(t);
+      }
+
+      if (showMass) {
+        var mc = document.createElement("div");
+        mc.className = "mass";
+        if (submitted) {
+          var gm = peptideMass(S.guesses[r]);
+          var delta = targetMass - gm;
+          mc.innerHTML = "<b>" + gm + "</b><i class=\"" +
+            (delta === 0 ? "ok" : delta > 0 ? "under" : "over") + "\">" +
+            (delta === 0 ? "✓" : (delta > 0 ? "+" : "−") + Math.abs(delta)) +
+            "</i>";
+          mc.setAttribute("aria-label", "guess mass " + gm + " daltons, " +
+            (delta === 0 ? "exact match" :
+             delta > 0 ? delta + " daltons too light" : Math.abs(delta) + " daltons too heavy"));
+        } else if (r === S.guesses.length && S.current.length) {
+          mc.classList.add("partial");
+          mc.innerHTML = "<b>" + partialMass(S.current) + "</b><i>…</i>";
+        }
+        row.appendChild(mc);
+      }
+      el.board.appendChild(row);
+    }
+    if (popIndex != null) {
+      window.setTimeout(function () {
+        var p = el.board.querySelector(".pop");
+        if (p) p.classList.remove("pop");
+      }, 120);
+    }
+  }
+
+  function renderPad() {
+    var states = S.done ? null : keyStates();
+    el.pad.innerHTML = "";
+    CLASS_KEYS.forEach(function (key) {
+      var spec = D.classes[key];
+      var row = document.createElement("div");
+      row.className = "krow";
+      row.setAttribute("style", classStyle(key));
+
+      var lab = document.createElement("div");
+      lab.className = "klabel";
+      lab.textContent = spec.glyph + " " + spec.label;
+      row.appendChild(lab);
+
+      var keys = document.createElement("div");
+      keys.className = "kkeys";
+      spec.residues.split("").forEach(function (r) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "key" + (states ? " " + states[r] : "");
+        b.dataset.residue = r;
+        b.innerHTML = "<span class=\"kr\">" + r + "</span>" +
+          (MODES[S.mode].revealMass
+            ? "<span class=\"km\">" + resMass(r) + "</span>" : "");
+        b.title = D.names[r] + " · " + resMass(r) + " Da · KD " + kd(r).toFixed(1);
+        b.setAttribute("aria-label", D.names[r] + ", " + resMass(r) + " daltons");
+        keys.appendChild(b);
+      });
+      row.appendChild(keys);
+      el.pad.appendChild(row);
+    });
+
+    var actions = document.createElement("div");
+    actions.className = "actions";
+
+    var del = document.createElement("button");
+    del.type = "button"; del.id = "btn-delete"; del.textContent = "Delete";
+    del.disabled = S.done || S.current.length === 0;
+
+    var sub = document.createElement("button");
+    sub.type = "button"; sub.id = "btn-submit";
+    sub.className = "primary";
+    sub.textContent = S.done ? "Result" : "Submit";
+    sub.disabled = !S.done && S.current.length !== 5;
+
+    actions.appendChild(del); actions.appendChild(sub);
+    el.pad.appendChild(actions);
+  }
+
+  function render(popIndex) {
+    renderMeta(); renderHints(); renderBoard(popIndex); renderPad();
+  }
+
+  /* ── toast ─────────────────────────────────────────────────────────── */
+
+  var toastTimer = null;
+  function toast(msg) {
+    if (el.toast) el.toast.remove();
+    var t = document.createElement("div");
+    t.className = "toast";
+    t.setAttribute("role", "status");
+    t.textContent = msg;
+    document.body.appendChild(t);
+    el.toast = t;
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () {
+      if (t.parentNode) t.remove();
+      if (el.toast === t) el.toast = null;
+    }, 1900);
+  }
+
+  /* ── sheets ────────────────────────────────────────────────────────── */
+
+  function openSheet(build) {
+    closeSheet();
+    var scrim = document.createElement("div");
+    scrim.className = "scrim";
+    var sheet = document.createElement("div");
+    sheet.className = "sheet";
+    sheet.setAttribute("role", "dialog");
+    sheet.setAttribute("aria-modal", "true");
+
+    var close = document.createElement("button");
+    close.type = "button";
+    close.className = "icon-btn close";
+    close.setAttribute("aria-label", "Close");
+    close.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>';
+    close.addEventListener("click", closeSheet);
+    sheet.appendChild(close);
+
+    build(sheet);
+    scrim.appendChild(sheet);
+    scrim.addEventListener("mousedown", function (e) {
+      if (e.target === scrim) closeSheet();
+    });
+    document.body.appendChild(scrim);
+    el.scrim = scrim;
+    close.focus();
+  }
+
+  function closeSheet() {
+    if (el.scrim) { el.scrim.remove(); el.scrim = null; }
+  }
+
+  function peptideRow(seq) {
+    var wrap = document.createElement("div");
+    wrap.className = "peptide";
+    seq.split("").forEach(function (r) {
+      var s = document.createElement("span");
+      s.setAttribute("style", classStyle(classOf(r)));
+      s.textContent = r;
+      wrap.appendChild(s);
+    });
+    return wrap;
+  }
+
+  function shareText() {
+    var head = "Sidechain " + (S.practice ? "practice" : S.dateISO) +
+      " · " + MODES[S.mode].label +
+      (MODES[S.mode].revealMass ? " · " + peptideMass(S.puzzle.seq) + " Da" : "") +
+      " · " + (S.won ? S.guesses.length : "X") + "/" + MODES[S.mode].limit;
+    var lines = S.guesses.map(function (g) {
+      return evaluate(g, S.puzzle.seq).map(function (f) {
+        return SHARE_TIER[f.tier] + SHARE_CMP[String(f.cmp)];
+      }).join("");
+    });
+    var chem = chemistryStreak();
+    var tail = S.won ? "score " + roundScore() + (chem ? " (chem +" + chem + ")" : "") : "";
+    return [head].concat(lines, tail ? [tail] : []).join("\n");
+  }
+
+  function revealSheet() {
+    var p = S.puzzle;
+    openSheet(function (sheet) {
+      var h = document.createElement("h2");
+      h.textContent = S.won ? "Solved — " + p.name : p.name;
+      sheet.appendChild(h);
+
+      var sub = document.createElement("p");
+      sub.className = "sub";
+      sub.textContent = S.won
+        ? S.guesses.length + " of " + MODES[S.mode].limit + " guesses · score " + roundScore()
+        : "Out of guesses";
+      sheet.appendChild(sub);
+
+      sheet.appendChild(peptideRow(p.seq));
+
+      var mline = document.createElement("p");
+      mline.className = "massline";
+      mline.innerHTML = p.seq.split("").map(function (r) {
+        return "<span>" + r + "<i>" + resMass(r) + "</i></span>";
+      }).join("<em>+</em>") + "<em>+</em><span>H₂O<i>" + D.water +
+        "</i></span><em>=</em><strong>" + peptideMass(p.seq) + " Da</strong>";
+      sheet.appendChild(mline);
+
+      var lead = document.createElement("p");
+      lead.className = "lead";
+      lead.textContent = p.blurb;
+      sheet.appendChild(lead);
+
+      var src = document.createElement("p");
+      src.className = "srcline";
+      src.innerHTML = "<strong>" + escapeHTML(p.source) + "</strong>";
+      if (p.acc) {
+        src.innerHTML += " · <a href=\"https://www.uniprot.org/uniprotkb/" +
+          encodeURIComponent(p.acc) + "\" target=\"_blank\" rel=\"noopener\">" +
+          escapeHTML(p.acc) + "</a>";
+      }
+      if (p.pos) src.innerHTML += " · residues " + p.pos + "–" + (p.pos + 4);
+      var badge = document.createElement("span");
+      badge.className = "prov " + p.verified;
+      badge.textContent = p.verified === "uniprot" ? "sequence checked"
+        : p.verified === "literature" ? "literature" : "engineered";
+      badge.title = p.verified === "uniprot"
+        ? "Located programmatically in the UniProt sequence."
+        : p.verified === "literature"
+          ? "Standard in the literature; position not machine-verified."
+          : "Synthetic sequence — no UniProt entry exists.";
+      src.appendChild(badge);
+      sheet.appendChild(src);
+
+      var box = document.createElement("div");
+      box.className = "sharebox";
+      box.textContent = shareText();
+      sheet.appendChild(box);
+
+      var acts = document.createElement("div");
+      acts.className = "actions";
+      var copy = document.createElement("button");
+      copy.type = "button"; copy.className = "primary"; copy.textContent = "Copy result";
+      copy.addEventListener("click", function () { copyShare(); });
+      var stats = document.createElement("button");
+      stats.type = "button"; stats.textContent = "Stats";
+      stats.addEventListener("click", statsSheet);
+      acts.appendChild(copy); acts.appendChild(stats);
+      sheet.appendChild(acts);
+
+      if (S.practice) {
+        var again = document.createElement("div");
+        again.className = "actions";
+        var nb = document.createElement("button");
+        nb.type = "button"; nb.textContent = "New practice puzzle";
+        nb.addEventListener("click", function () { closeSheet(); newPractice(); });
+        again.appendChild(nb);
+        sheet.appendChild(again);
+      }
+    });
+  }
+
+  function copyShare() {
+    var text = shareText();
+    var done = function () { toast("Result copied"); };
+    var fail = function () { toast("Copy failed — select the text instead"); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand && document.execCommand("copy");
+        ta.remove();
+        ok ? done() : fail();
+      } catch (e2) { fail(); }
+    }
+  }
+
+  function statsSheet() {
+    var st = loadStats();
+    openSheet(function (sheet) {
+      var h = document.createElement("h2");
+      h.textContent = "Statistics";
+      sheet.appendChild(h);
+      var sub = document.createElement("p");
+      sub.className = "sub";
+      sub.textContent = MODES[S.mode].label + " mode";
+      sheet.appendChild(sub);
+
+      var grid = document.createElement("div");
+      grid.className = "statgrid";
+      [["played", st.played], ["win %", st.played ? Math.round(100 * st.won / st.played) : 0],
+       ["streak", st.streak], ["best", st.maxStreak]].forEach(function (pair) {
+        var d = document.createElement("div");
+        d.innerHTML = "<b>" + pair[1] + "</b><span>" + pair[0] + "</span>";
+        grid.appendChild(d);
+      });
+      sheet.appendChild(grid);
+
+      var maxv = Math.max.apply(null, st.dist.concat([1]));
+      var dist = document.createElement("div");
+      dist.className = "dist";
+      var limit = MODES[S.mode].limit;
+      for (var i = 1; i <= limit; i++) {
+        var v = st.dist[i - 1] || 0;
+        var row = document.createElement("div");
+        row.className = "drow" + (S.won && S.guesses.length === i ? " hit" : "");
+        var bw = document.createElement("div");
+        bw.className = "barwrap";
+        var bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.width = Math.max(8, Math.round(100 * v / maxv)) + "%";
+        bar.textContent = v;
+        bw.appendChild(bar);
+        row.innerHTML = "<div>" + i + "</div>";
+        row.appendChild(bw);
+        dist.appendChild(row);
+      }
+      sheet.appendChild(dist);
+
+      var total = document.createElement("p");
+      total.className = "srcline";
+      total.textContent = "Total score " + st.score +
+        " · " + PUZZLES.length + " motifs in rotation";
+      sheet.appendChild(total);
+    });
+  }
+
+  function helpSheet() {
+    openSheet(function (sheet) {
+      var h = document.createElement("h2");
+      h.textContent = "How to play";
+      sheet.appendChild(h);
+      var sub = document.createElement("p");
+      sub.className = "sub";
+      sheet.appendChild(sub);
+      sub.textContent = "Chemistry, not letters";
+
+      var p1 = document.createElement("p");
+      p1.className = "lead";
+      p1.textContent = "Guess the five-residue peptide. Nothing tells you which letters are right — the feedback describes the side-chain chemistry of each position instead.";
+      sheet.appendChild(p1);
+
+      var legend = document.createElement("div");
+      legend.className = "legend";
+      [["exact", "S", "Exact residue."],
+       ["klass", "T", "Right chemical class, wrong residue. Here the answer is another polar residue."],
+       ["miss", "L", "Wrong class entirely."]].forEach(function (row) {
+        var r = document.createElement("div");
+        r.className = "lrow";
+        r.innerHTML = '<div class="swatch ' + row[0] + '">' + row[1] + "</div><div>" + row[2] + "</div>";
+        legend.appendChild(r);
+      });
+      sheet.appendChild(legend);
+
+      var p2 = document.createElement("p");
+      p2.innerHTML = "Under each letter sits the <strong>hydropathy compass</strong>: " +
+        CMP.up + " the true residue is more hydrophobic than your guess, " +
+        CMP.down + " less, " + CMP.same + " the same, on the Kyte–Doolittle scale. " +
+        "Without the compass this puzzle is close to unsolvable, so use it.";
+      sheet.appendChild(p2);
+
+      var ct = document.createElement("div");
+      ct.className = "classtable";
+      CLASS_KEYS.forEach(function (key) {
+        var spec = D.classes[key];
+        var row = document.createElement("div");
+        row.className = "crow";
+        row.setAttribute("style", classStyle(key));
+        row.innerHTML = '<div class="g">' + spec.glyph + "</div><div>" +
+          escapeHTML(spec.label) + '</div><div class="r">' +
+          spec.residues.split("").join(" ") + "</div>";
+        ct.appendChild(row);
+      });
+      sheet.appendChild(ct);
+
+      var p25 = document.createElement("p");
+      p25.innerHTML = "The second channel is <strong>mass</strong>. You are told the peptide's " +
+        "mass in whole daltons before you start, every residue's mass is printed on its key, " +
+        "and each guess reports its own mass and how far off it is. That turns the puzzle into " +
+        "arithmetic you can actually close: 43 daltons light is a glycine that should have been " +
+        "a valine.";
+      sheet.appendChild(p25);
+
+      var p26 = document.createElement("p");
+      p26.innerHTML = "Whole daltons on purpose. Leucine and isoleucine are isomers with " +
+        "<em>identical</em> mass, and lysine and glutamine both round to 128 — the same two " +
+        "ambiguities that make real peptide mass spectrometry hard.";
+      sheet.appendChild(p26);
+
+      var p3 = document.createElement("p");
+      p3.innerHTML = "<strong>Easy</strong> reveals the class of every position and gives four guesses. " +
+        "<strong>Core</strong> gives you the mass and five. <strong>Hard</strong> withholds the mass " +
+        "entirely and gives seven. Solve to see which real protein motif you just built.";
+      sheet.appendChild(p3);
+
+      var p4 = document.createElement("p");
+      p4.className = "srcline";
+      p4.textContent = "Scoring: 100 points per unused guess, plus 25 for every guess where all five positions were at least class-correct — reasoning beats luck.";
+      sheet.appendChild(p4);
+    });
+  }
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  /* ── actions ───────────────────────────────────────────────────────── */
+
+  function typeResidue(r) {
+    if (S.done || S.current.length >= 5) return;
+    S.current += r;
+    render(S.current.length - 1);
+    persist();
+  }
+
+  function deleteResidue() {
+    if (S.done || !S.current.length) return;
+    S.current = S.current.slice(0, -1);
+    render();
+    persist();
+  }
+
+  function submitGuess() {
+    if (S.done) { revealSheet(); return; }
+    if (S.current.length !== 5) { toast("Need five residues"); return; }
+    var g = S.current;
+    S.guesses.push(g);
+    S.current = "";
+    if (g === S.puzzle.seq) { S.done = true; S.won = true; }
+    else if (S.guesses.length >= MODES[S.mode].limit) { S.done = true; S.won = false; }
+    if (S.done) recordResult();
+    render();
+    persist();
+    if (S.done) window.setTimeout(revealSheet, 420);
+  }
+
+  function recordResult() {
+    if (S.practice) return;                  // practice never touches stats
+    var st = loadStats();
+    if (st.lastDate === S.dateISO) return;   // already counted today
+    st.played += 1;
+    if (S.won) {
+      st.won += 1;
+      st.dist[S.guesses.length - 1] = (st.dist[S.guesses.length - 1] || 0) + 1;
+      st.score += roundScore();
+      var yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      st.streak = (st.lastDate === localISODate(yesterday)) ? st.streak + 1 : 1;
+      if (st.streak > st.maxStreak) st.maxStreak = st.streak;
+    } else {
+      st.streak = 0;
+    }
+    st.lastDate = S.dateISO;
+    store.set(statsKey(), st);
+  }
+
+  function persist() {
+    store.set(stateKey(), {
+      id: S.puzzle.id, guesses: S.guesses, current: S.current,
+      done: S.done, won: S.won
+    });
+  }
+
+  function restore() {
+    var saved = store.get(stateKey(), null);
+    if (!saved || saved.id !== S.puzzle.id || !Array.isArray(saved.guesses)) return false;
+    S.guesses = saved.guesses.filter(function (g) {
+      return typeof g === "string" && g.length === 5;
+    }).slice(0, MODES[S.mode].limit);
+    S.current = typeof saved.current === "string" ? saved.current.slice(0, 5) : "";
+    S.won = S.guesses.indexOf(S.puzzle.seq) >= 0;
+    S.done = S.won || S.guesses.length >= MODES[S.mode].limit;
+    if (S.done) S.current = "";
+    return true;
+  }
+
+  function setMode(mode) {
+    if (!MODES[mode] || mode === S.mode) return;
+    S.mode = mode;
+    store.set("mode", mode);
+    S.guesses = []; S.current = ""; S.done = false; S.won = false;
+    restore();
+    render();
+    document.querySelectorAll("[data-mode]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+    });
+  }
+
+  function newPractice() {
+    var next;
+    do { next = PUZZLES[Math.floor(Math.random() * PUZZLES.length)]; }
+    while (PUZZLES.length > 1 && next.id === S.puzzle.id);
+    S.puzzle = next;
+    S.guesses = []; S.current = ""; S.done = false; S.won = false;
+    persist();
+    render();
+    toast("New practice puzzle");
+  }
+
+  /* ── input wiring ──────────────────────────────────────────────────── */
+
+  function onKeyDown(e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (el.scrim) {
+      if (e.key === "Escape") { e.preventDefault(); closeSheet(); }
+      return;
+    }
+    if (e.key === "Enter") { e.preventDefault(); submitGuess(); return; }
+    if (e.key === "Backspace") { e.preventDefault(); deleteResidue(); return; }
+    var ch = (e.key || "").toUpperCase();
+    if (ch.length === 1 && D.hydropathy[ch] != null) {
+      e.preventDefault();
+      typeResidue(ch);
+    }
+  }
+
+  function boot() {
+    el.board = $("board");
+    el.hints = $("hints");
+    el.pad = $("pad");
+    el.metaLeft = $("meta-left");
+    el.metaRight = $("meta-right");
+    el.target = $("target");
+
+    var params = new URLSearchParams(window.location.search);
+    S.practice = params.has("practice");
+    S.mode = MODES[store.get("mode", "core")] ? store.get("mode", "core") : "core";
+
+    if (S.practice) {
+      var saved = store.get("state:" + S.mode + ":practice", null);
+      var byId = saved && PUZZLES.filter(function (p) { return p.id === saved.id; })[0];
+      S.puzzle = byId || PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
+    } else {
+      S.puzzle = puzzleForDate(S.dateISO);
+    }
+
+    restore();
+
+    document.querySelectorAll("[data-mode]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.mode === S.mode));
+      b.addEventListener("click", function () { setMode(b.dataset.mode); });
+    });
+    $("btn-help").addEventListener("click", helpSheet);
+    $("btn-stats").addEventListener("click", statsSheet);
+
+    el.pad.addEventListener("click", function (e) {
+      var k = e.target.closest("button");
+      if (!k) return;
+      if (k.dataset.residue) typeResidue(k.dataset.residue);
+      else if (k.id === "btn-delete") deleteResidue();
+      else if (k.id === "btn-submit") submitGuess();
+    });
+
+    document.addEventListener("keydown", onKeyDown);
+
+    render();
+
+    if (!store.get("seen-help", false)) {
+      helpSheet();
+      store.set("seen-help", true);
+    } else if (S.done) {
+      // leave the board visible; the player can reopen the result
+    }
+
+    window.__sidechain = {          // test hook, harmless in production
+      state: S, evaluate: evaluate, shareText: shareText,
+      possibleSets: possibleSets, keyStates: keyStates,
+      peptideMass: peptideMass,
+      type: typeResidue, submit: submitGuess, del: deleteResidue
+    };
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else { boot(); }
+})();
+
+</script>
+</body>
+</html>

@@ -380,6 +380,12 @@ h2 {
 .pub__title a { color: var(--ink); text-decoration: none; }
 .pub__title a:hover { color: var(--stain); text-decoration: underline; text-decoration-thickness: 1px; }
 .pub__authors { color: var(--ink-2); font-size: 1rem; line-height: 1.5; }
+.pub__kind {
+  font: 500 0.9375rem/1.4 var(--sans);
+  color: var(--ink-2);
+}
+.pub--project .pub__summary { margin-top: 0.5rem !important; }
+.pub--project .pub__summary + .pub__summary { margin-top: 0.65rem !important; }
 .pub__authors strong { color: var(--ink); font-weight: 650; }
 .pub__venue { margin-top: 0.1rem; font-size: 1rem; }
 .pub__venue cite { font-style: italic; }

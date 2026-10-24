@@ -1,0 +1,25 @@
+---
+layout: default
+title: Projects
+description: Software and research projects by Wyatt G. Kriebel, including Sidechain, a peptide puzzle game for biochemistry, and computational design of 6PPD-quinone binders.
+nav: projects
+schema: projects
+---
+<div class="wrap">
+  <header class="title-block title-block--page">
+    <h1 class="title">Projects</h1>
+    <p class="deck">Software and research in progress, with the code on GitHub.</p>
+  </header>
+
+  <div class="doc">
+    <section aria-labelledby="h-current">
+      <h2 id="h-current">Current projects</h2>
+      <div class="pub-list">
+        {%- for pr in site.data.projects %}
+        {% include project.html project=pr full="yes" %}
+        {%- endfor %}
+      </div>
+      <p class="more"><a href="https://github.com/{{ site.data.profile.correspondence.github }}">All repositories on GitHub</a></p>
+    </section>
+  </div>
+</div>
