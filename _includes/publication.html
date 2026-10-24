@@ -38,6 +38,9 @@
     {%- endif %}
     <div class="pub__actions">
       <a class="pub__doi" href="https://doi.org/{{ pub.doi }}">doi:{{ pub.doi }}{% include icon.html name='external' %}</a>
+      {%- if pub.preprint %}
+      <a class="pub__doi" href="{{ pub.preprint }}">Preprint{% include icon.html name='external' %}</a>
+      {%- endif %}
       <button class="pub__cite" type="button" aria-expanded="false" aria-controls="{{ pub.id }}-cite" hidden>Cite{% include icon.html name='chevron' %}</button>
     </div>
     <div class="cite-panel" id="{{ pub.id }}-cite" hidden>

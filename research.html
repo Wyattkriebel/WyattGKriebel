@@ -1,0 +1,115 @@
+---
+layout: default
+title: Research
+description: Plain-language summaries of Wyatt G. Kriebel's research on oculocutaneous albinism type 1, from measuring vision in OCA1 mice to AAV gene therapy that restores eye pigment.
+nav: research
+---
+{%- assign r = site.data.research -%}
+{%- assign cc = 'https://creativecommons.org/licenses/by-nc-nd/4.0/' -%}
+<div class="wrap">
+  <header class="title-block title-block--page">
+    <h1 class="title">Research</h1>
+    <p class="deck">What each project asked, what I did, and what we found.</p>
+  </header>
+
+  <div class="research">
+    <nav class="research__contents" aria-labelledby="h-contents">
+      <h2 id="h-contents">Contents</h2>
+      <ol>
+        <li><a href="#background">Background: OCA1</a></li>
+        {%- for s in r.studies %}
+        <li><a href="#{{ s.id }}">{{ s.title }}</a></li>
+        {%- endfor %}
+        <li><a href="#{{ r.other.id }}">{{ r.other.title }}</a></li>
+      </ol>
+    </nav>
+
+    <div class="research__body">
+      <p class="lede">{{ r.intro }}</p>
+
+      <section class="study" id="background" aria-labelledby="h-background">
+        <h2 id="h-background">{{ r.background.title }}</h2>
+        {%- for para in r.background.paragraphs %}
+        {{ para | markdownify }}
+        {%- endfor %}
+      </section>
+
+      {%- for s in r.studies %}
+      {%- assign pub = site.data.publications | where: "id", s.pub | first %}
+      <article class="study" id="{{ s.id }}" aria-labelledby="h-{{ s.id }}">
+        <h2 id="h-{{ s.id }}">{{ s.title }}</h2>
+        <div class="study__cite">
+          <p class="study__ref">
+            {%- for a in pub.authors -%}
+            {%- if a.me -%}<strong>{{ a.short }}</strong>{%- else -%}{{ a.short }}{%- endif -%}
+            {%- if a.equal -%}<abbr class="eq" title="Equal contribution">*</abbr>{%- endif -%}
+            {%- unless forloop.last %}, {% endunless -%}
+            {%- endfor -%}. {{ pub.title }}. <cite>{{ pub.venue }}</cite>{% if pub.volume %} {{ pub.volume }}, {{ pub.number }}{% endif %} ({{ pub.year }}).
+          </p>
+          <p class="study__meta"><strong>My role:</strong> {{ s.role }}</p>
+          <p class="study__links">
+            <a href="https://doi.org/{{ pub.doi }}">Read the paper{% include icon.html name='external' %}</a>
+            {%- if pub.preprint %}
+            <a href="{{ pub.preprint }}">Preprint{% include icon.html name='external' %}</a>
+            {%- endif %}
+            <span class="study__status">{{ pub.history }}<span class="sep" aria-hidden="true">&middot;</span>{{ pub.status }}</span>
+          </p>
+        </div>
+
+        <h3>The question</h3>
+        {{ s.question | markdownify }}
+
+        <h3>What I did</h3>
+        <ul class="study__list">
+          {%- for c in s.contribution %}
+          <li>{{ c | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+          {%- endfor %}
+        </ul>
+
+        <h3>Approach</h3>
+        <ul class="study__list">
+          {%- for a in s.approach %}
+          <li>{{ a | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+          {%- endfor %}
+        </ul>
+
+        <h3>What we found</h3>
+        <ul class="findings">
+          {%- for f in s.findings %}
+          <li><span class="findings__lead">{{ f.lead }}</span> {{ f.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+          {%- endfor %}
+        </ul>
+
+        {%- for fig in s.figures %}
+        <figure class="fig{% if fig.narrow %} fig--narrow{% endif %}">
+          <a class="fig__plate" href="{{ fig.link }}">
+            <img src="{{ fig.src | relative_url }}" alt="{{ fig.alt | escape }}" width="{{ fig.width }}" height="{{ fig.height }}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          </a>
+          <figcaption>
+            <span class="fig__label">{{ fig.label }}.</span> {{ fig.caption }}
+            <span class="fig__credit">{{ fig.label }} from {{ s.figure_credit }}, reproduced unchanged under <a href="{{ cc }}">CC BY-NC-ND 4.0</a>.</span>
+          </figcaption>
+        </figure>
+        {%- endfor %}
+
+        <h3>Why it matters</h3>
+        {{ s.outcome | markdownify }}
+      </article>
+      {%- endfor %}
+
+      <section class="study" id="{{ r.other.id }}" aria-labelledby="h-{{ r.other.id }}">
+        <h2 id="h-{{ r.other.id }}">{{ r.other.title }}</h2>
+        {{ r.other.intro | markdownify }}
+        {%- for it in r.other.items %}
+        <div class="side-work">
+          <h3>{{ it.title }}</h3>
+          {%- if it.note %}
+          <p class="study__meta">{{ it.note }}</p>
+          {%- endif %}
+          {{ it.text | markdownify }}
+        </div>
+        {%- endfor %}
+      </section>
+    </div>
+  </div>
+</div>

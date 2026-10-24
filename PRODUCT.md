@@ -43,7 +43,7 @@ Visitors are often on a laptop between other application materials, or on a phon
 
 From CV (Sep 2026) and the publisher pages:
 - Kriebel WG*, Larimer-Picciani AM*, Nukala M, Sahel J-A, Byrne LC. Quantifying functional vision in a mouse model of oculocutaneous albinism type 1. Scientific Reports 16, 14563 (2026). doi:10.1038/s41598-026-45301-x. *Equal contribution. Open access.
-- Larimer-Picciani AM, Jacob LB, Sullinger KJ, Kriebel WG, Sahel J-A, Byrne LC. Systemic, RPE-directed AAV-Tyrosinase therapy restores ocular pigmentation in an OCA1 mouse model. bioRxiv, posted 2 July 2026. doi:10.64898/2026.07.01.735814. Reported by Wyatt as accepted at Molecular Therapy (in press).
+- Larimer-Picciani AM, Jacob LB, Sullinger KJ, Kriebel WG, Sahel J-A, Byrne LC. Systemic, RPE-directed AAV-tyrosinase therapy restores ocular pigmentation in an OCA1 mouse model. Molecular Therapy Advances 34, 201861 (2026), published online 7 October 2026. doi:10.1016/j.omta.2026.201861. Preprint: bioRxiv, 2 July 2026, doi:10.64898/2026.07.01.735814. Wyatt's role: performed the behavioral experiments.
 - Presentation: Pitt Ophthalmology Vision Research Day 2024, "Measuring Innate Responses of Visually Impaired OCA1 Mice."
 - Experience: Krystal Biotech (Bioprocess Engineer I, Aug 2025 to present); Byrne Lab, Univ. of Pittsburgh (Research Technician 2023 to 2025; Undergraduate Researcher 2020 to 2023); Liu Lab, Univ. of Pittsburgh (Volunteer Computational Researcher, Mar to Aug 2025).
 - Education: B.S. Computational Biology, University of Pittsburgh, Dec 2023; minors in Chemistry, Computer Science, History.

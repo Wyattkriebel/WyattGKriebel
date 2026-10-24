@@ -1,0 +1,298 @@
+# Research page content. Text fields accept Markdown (*italic*, **bold**, links).
+#
+# Figures: `src` can be a journal image URL or, after you upload a file to
+# assets/figures/, a site path such as /assets/figures/sci-rep-fig1.png.
+# `width`/`height` are the image's pixel size; `narrow: true` keeps tall
+# figures from filling the column.
+
+intro: >-
+  Most of my research so far has been about one inherited condition,
+  oculocutaneous albinism type 1, from two directions: first measuring what
+  it does to vision, then testing a gene therapy meant to treat it. This page
+  explains each project, what I contributed, and what we found, so you don't
+  need to read the papers to follow the work.
+
+background:
+  title: "Background: oculocutaneous albinism type 1"
+  paragraphs:
+    - >-
+      Oculocutaneous albinism type 1 (OCA1) is caused by mutations in both
+      copies of the gene for *tyrosinase*, the enzyme that starts melanin
+      production. It affects roughly 1 in 36,000 to 40,000 people. Without tyrosinase,
+      the skin, hair and eyes make little or no pigment.
+    - >-
+      In the eye, pigment normally sits in the iris, the **retinal pigment
+      epithelium** (RPE, the cell layer just behind the light-sensing
+      photoreceptors) and the **choroid** (the blood-vessel layer behind
+      that). It absorbs stray light and cuts glare. Without it, people with
+      OCA1 have painful light sensitivity (photophobia), glare and low vision.
+      Missing pigment also disrupts how the retina develops. No approved
+      therapy restores eye pigment.
+    - >-
+      Both studies below use the same OCA1 mouse model
+      (B6(Cg)-*Tyr*<sup>c-2J</sup>/J), which carries a loss-of-function
+      tyrosinase mutation and makes no pigment. Mice have no fovea, but the
+      model shares the hypopigmentation and retinal developmental defects seen
+      in patients, which makes it a widely used model for testing OCA1
+      therapies.
+
+studies:
+  - id: oca1-vision
+    pub: kriebel-2026-scirep
+    title: Measuring what OCA1 mice can see
+    role: Co-first author
+    question: >-
+      Studies had shown that OCA1 mice are light-sensitive and have poor depth
+      perception, but nobody had measured higher-level vision in this
+      model, such as recognizing objects or resolving spatial detail. Without
+      that baseline, there is no functional test to show whether a therapy
+      actually improves vision. We asked which visually guided behaviors are
+      impaired in OCA1 mice, and whether we could measure them reliably
+      enough to serve as endpoints for future treatments.
+    contribution:
+      - I co-conceived the study with Alessandra Larimer-Picciani and Leah Byrne.
+      - I developed the behavioral methods with Alessandra Larimer-Picciani.
+      - I ran all of the behavioral experiments.
+      - I analyzed the data with Mahija Nukala and Alessandra Larimer-Picciani.
+      - I co-wrote the original draft and the revisions, and I presented the work at the University of Pittsburgh Ophthalmology Vision Research Day in 2024.
+    approach:
+      - >-
+        **Three assays, three aspects of vision.** We compared OCA1 mice with
+        normally pigmented wild-type mice (C57BL/6J). In two assays we also
+        tested *rd1* mice, whose photoreceptors degenerate early in life, as a
+        reference for little or no vision.
+      - >-
+        **Light–dark box (photophobia).** Mice moved freely between a dark
+        compartment and a lit one at 0, 150 and 1,500 lux. We measured time
+        spent in the light and the number of crossings into it (6 wild-type
+        and 7 OCA1 adult males).
+      - >-
+        **Novel object test (object perception).** After the mice got used to
+        a familiar object, we added a new one under moderate light (150 lux,
+        below the level that triggers light aversion). We measured time spent
+        near each object and visits to it (20 wild-type, 20 OCA1 and 11 *rd1*
+        mice).
+      - >-
+        **Looming stimulus with spatial gratings (spatial acuity).** An
+        overhead screen showed an expanding disc, the kind of shape that
+        mimics an approaching predator. It was overlaid with striped patterns
+        of five spatial frequencies, from 0.017 to 1.088 cycles per degree.
+        We scored each response as freeze or flee and timed how long it took
+        (20 mice per group).
+      - >-
+        Behavior was video-tracked and scored in EthoVision XT, looming
+        stimuli were generated in PsychoPy, and freeze and flee responses were
+        classified with objective velocity thresholds.
+    findings:
+      - lead: Light aversion appears only in bright light.
+        text: >-
+          At 0 and 150 lux, both groups split their time evenly (about 46–47%
+          in the light). At 1,500 lux, OCA1 mice spent 22.6% of the trial in
+          the light compared with 37% for wild-type mice (p < 0.0001), about
+          45 seconds less out of five minutes. Crossings into the light did not
+          drop, so the mice still explored but chose not to stay.
+      - lead: Object recognition is impaired even in moderate light.
+        text: >-
+          Wild-type mice spent 34.1 seconds near the novel object; OCA1 mice
+          spent 12.8 seconds, statistically indistinguishable from blind *rd1*
+          mice (11 seconds). Wild-type mice approached the novel object 46.6
+          times on average, 2.3 times as often as OCA1 mice (19.9 visits).
+          Heat maps showed wild-type mice circling the new object while OCA1
+          and *rd1* mice rarely engaged with it.
+      - lead: Spatial vision is reduced, and responses are slower and different.
+        text: >-
+          OCA1 mice responded to looming stimuli 53% less often overall than
+          wild-type mice (p = 0.048), although no single stripe pattern
+          differed significantly on its own. Both groups were most responsive
+          to the same stripe frequency (0.068 cycles per degree). OCA1 mice
+          tended to flee rather than
+          freeze (64 flee and 86 freeze responses, against 29 and 137 for
+          wild-type), and they responded more slowly, for example 2.6 seconds
+          versus 1.4 seconds at the coarsest pattern. *rd1* mice did not
+          respond at all.
+    figures:
+      - src: https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs41598-026-45301-x/MediaObjects/41598_2026_45301_Fig1_HTML.png
+        width: 685
+        height: 494
+        alt: Light–dark box diagram and bar charts of time in the lit compartment and crossover counts at 0, 150 and 1,500 lux for wild-type and OCA1 mice.
+        label: Figure 1
+        caption: Light–dark box. OCA1 mice avoid the lit compartment only at 1,500 lux, while their number of crossings stays the same.
+        link: https://www.nature.com/articles/s41598-026-45301-x/figures/1
+      - src: https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs41598-026-45301-x/MediaObjects/41598_2026_45301_Fig2_HTML.png
+        width: 685
+        height: 967
+        narrow: true
+        alt: Novel object arena and bar charts of time with and visits to the novel and familiar objects for wild-type, OCA1 and rd1 mice.
+        label: Figure 2
+        caption: Novel object test at 150 lux. OCA1 mice spend less time with the new object and visit it less often than wild-type mice, much like blind rd1 mice.
+        link: https://www.nature.com/articles/s41598-026-45301-x/figures/2
+      - src: https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs41598-026-45301-x/MediaObjects/41598_2026_45301_Fig3_HTML.png
+        width: 685
+        height: 211
+        alt: Three heat maps of where wild-type, OCA1 and rd1 mice spent time in the arena, with the novel object outlined.
+        label: Figure 3
+        caption: Where each group spent its time. Wild-type mice cluster around the new object (outlined); OCA1 and rd1 mice largely avoid it.
+        link: https://www.nature.com/articles/s41598-026-45301-x/figures/3
+      - src: https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs41598-026-45301-x/MediaObjects/41598_2026_45301_Fig4_HTML.png
+        width: 685
+        height: 514
+        alt: Looming stimulus arena, the five striped grating patterns, and charts of freeze and flee response rates for wild-type and OCA1 mice.
+        label: Figure 4
+        caption: Looming stimulus with spatial gratings. The arena, the five stripe frequencies, and the rate and type of response for wild-type and OCA1 mice.
+        link: https://www.nature.com/articles/s41598-026-45301-x/figures/4
+    figure_credit: Kriebel, Larimer-Picciani et al., Scientific Reports (2026)
+    outcome: >-
+      This study gives the OCA1 mouse a behavioral profile that goes beyond
+      light sensitivity. It shows deficits in object recognition and spatial
+      processing even in ordinary light, and it provides quantifiable tests
+      for whether a therapy improves vision. The light–dark assay from this
+      work became the functional test in the gene therapy study below. The
+      underlying causes still need work; the paper points to photoreceptor
+      and retinal ganglion cell changes and to processing in the brain's
+      visual centers as next questions.
+
+  - id: aav-tyr
+    pub: larimer-picciani-2026-mta
+    title: Restoring eye pigment with AAV gene therapy
+    role: Co-author; I ran the behavioral experiments
+    question: >-
+      One working copy of the tyrosinase gene is enough to make pigment, and
+      the eye is easy to reach with adeno-associated virus (AAV), a harmless
+      virus used to deliver genes, which makes OCA1 a good candidate for
+      gene replacement. Earlier work showed AAV-tyrosinase could partly
+      re-pigment the eye, but not how best to deliver it. This study asked
+      which delivery route and which promoter (the genetic switch that
+      controls where the gene is expressed) restore the most pigment in the
+      iris, RPE and choroid with the least expression elsewhere, and whether
+      the restored pigment changes how the mice respond to light.
+    contribution:
+      - I performed the behavioral experiments. I ran the light–dark photophobia assay comparing mice treated with the lead therapy against untreated littermates, using the same assay as the vision study above.
+      - Alessandra Larimer-Picciani led the study and ran the other experiments, with TEM by Lucas Jacob and immunohistochemistry by Kacey Sullinger.
+    approach:
+      - >-
+        **Two constructs.** The mouse tyrosinase gene was paired with either a
+        ubiquitous promoter (CAG, active in most cells) or an RPE-directed
+        promoter (VMD2).
+      - >-
+        **Three delivery routes.** Intravenous injection one day after birth,
+        before the blood–retina barrier closes. Subretinal injection
+        (under the retina) at one month of age. Intravitreal injection (into
+        the gel of the eye) at one month of age, using an engineered capsid
+        designed to cross the retina's inner surface.
+      - >-
+        **Measuring pigment and safety.** Pigment was assessed by fundus
+        photography, whole cleared eyes, the pigmented area of flat-mounted
+        RPE and choroid, and electron microscopy of melanosomes (the
+        organelles that make and store melanin). Tyrosinase expression was
+        measured in the eye, liver and brain by RT-qPCR.
+      - >-
+        **Function.** The lead therapy was tested with the light–dark box at
+        0, 150 and 1,500 lux.
+    findings:
+      - lead: Delivery route mattered most.
+        text: >-
+          Intravenous delivery pigmented the back of the eye most widely: 56%
+          (CAG) and 65% (VMD2) of the RPE and choroid surface. Subretinal
+          injection pigmented about 29%, concentrated around the injection
+          site. Intravitreal injection left the back of the eye essentially
+          unpigmented, although the CAG version densely pigmented the iris.
+      - lead: The RPE-directed promoter matched the ubiquitous one with far less off-target expression.
+        text: >-
+          VMD2 restored as much pigment as CAG while raising tyrosinase
+          expression much less outside the eye: 34-fold versus 255-fold in
+          the liver, and 2-fold versus 36-fold in the brain region containing
+          the substantia nigra, where stray tyrosinase can be harmful.
+      - lead: Treated eyes made mature pigment, and it lasted.
+        text: >-
+          Electron microscopy showed mature, pigmented melanosomes in the RPE
+          and choroid of treated mice, which untreated OCA1 mice lack
+          entirely, though still fewer than in normally pigmented mice.
+          Pigment was maintained five or more months after treatment.
+      - lead: In a small pilot, treated mice did not avoid bright light (my experiment).
+        text: >-
+          In a pilot of 3 treated and 4 untreated mice, untreated mice spent
+          less time in the light as it got brighter (56.9%, 43.9% and 22.1% at
+          0, 150 and 1,500 lux). Treated mice generally showed no preference
+          at any brightness (39.1%, 42.4% and 45.0%). The interaction between
+          treatment and brightness was significant (p = 0.0156), but with
+          this few animals no single light level reached significance on its
+          own.
+    figures:
+      - src: https://ars.els-cdn.com/content/image/1-s2.0-S3117387X26001965-ga1.jpg
+        width: 375
+        height: 375
+        narrow: true
+        alt: Graphical abstract showing the two AAV-tyrosinase constructs, the three injection routes, and the path from AAV transduction to melanin production, eye pigmentation and light tolerance.
+        label: Graphical abstract
+        caption: The study design and the lead strategy, intravenous RPE-directed AAV-tyrosinase.
+        link: https://doi.org/10.1016/j.omta.2026.201861
+      - src: https://ars.els-cdn.com/content/image/1-s2.0-S3117387X26001965-gr3.jpg
+        width: 484
+        height: 936
+        narrow: true
+        alt: Grid of cleared whole eyes, front and back views, for each delivery route and construct, alongside untreated OCA1 and fully pigmented control eyes.
+        label: Figure 3
+        caption: Whole cleared eyes, front and back. Intravenous delivery pigments the back of the eye widely; subretinal delivery pigments around the injection site; untreated OCA1 eyes stay clear.
+        link: https://doi.org/10.1016/j.omta.2026.201861
+      - src: https://ars.els-cdn.com/content/image/1-s2.0-S3117387X26001965-gr5.jpg
+        width: 665
+        height: 914
+        narrow: true
+        alt: Flat-mounted RPE and choroid for each route and construct, a bar chart of percent area pigmented, and a bar chart of relative tyrosinase mRNA in front and back of the eye.
+        label: Figure 5
+        caption: Pigmented area of the RPE and choroid by route and construct, and tyrosinase expression in the front and back of the eye.
+        link: https://doi.org/10.1016/j.omta.2026.201861
+      - src: https://ars.els-cdn.com/content/image/1-s2.0-S3117387X26001965-gr7.jpg
+        width: 654
+        height: 750
+        narrow: true
+        alt: Light–dark box diagram, fundus images of a treated and an untreated eye, and charts of light compartment occupancy and crossovers at 0, 150 and 1,500 lux.
+        label: Figure 7
+        caption: The light–dark experiment I ran. Untreated mice avoid the light at 1,500 lux; mice given intravenous AAV9.2yf-VMD2-Tyr show no clear preference.
+        link: https://doi.org/10.1016/j.omta.2026.201861
+    figure_credit: Larimer-Picciani et al., Molecular Therapy Advances (2026)
+    outcome: >-
+      This is the first systematic comparison of delivery route and promoter
+      for restoring eye pigment in an OCA1 model. It identifies RPE-directed
+      AAV-tyrosinase as achieving widespread pigment with lower off-target
+      expression, plus preliminary evidence that restored pigment changes
+      light-avoidance behavior. The paper is direct about the limits. Newborn intravenous
+      delivery isn't an option in people, because the human blood–retina
+      barrier matures before birth, and it carries systemic risk. So the next
+      steps point to local delivery: subretinal injection, which is already
+      used clinically, and suprachoroidal injection.
+
+other:
+  id: other-byrne
+  title: Other work in the Byrne Lab
+  intro: >-
+    From 2020 to 2025 I also worked on projects in the Byrne Lab that weren't
+    published as their own papers. Here I describe what I did on each.
+  items:
+    - title: Improving repigmentation in OCA1 mice
+      note: Brackenridge Summer Research Fellowship, 2021
+      text: >-
+        I evaluated transcription factors and injection methods aimed at making
+        AAV-mediated repigmentation more efficient in OCA1 mice. The University
+        of Pittsburgh's competitive Brackenridge Fellowship supported it as an
+        independent undergraduate project. The work contributed to improving
+        repigmentation efficiency, part of the lab's broader effort to restore
+        eye pigment described above.
+    - title: Single-cell transcriptomics of tyrosinase-negative retina
+      text: >-
+        I built a Python and R pipeline to analyze single-cell RNA sequencing
+        (scRNA-seq) data, comparing gene expression in retinal cells from
+        tyrosinase-negative and wild-type mice. The aim was to see which
+        retinal cell types change when pigment is missing.
+    - title: Computational prioritization of AAV capsid variants
+      text: >-
+        I applied computational modeling and molecular docking workflows to
+        rank novel AAV capsid variants (capsids are the protein shells that
+        determine which cells a vector reaches). The rankings helped decide
+        which candidates to carry forward for targeted gene delivery.
+    - title: Producing research-grade AAV
+      text: >-
+        I produced AAV vectors for preclinical studies. That covered HEK293
+        cell culture and transfection under BSL-2 conditions, large-scale
+        purification by ultracentrifugation and ÄKTA FPLC with affinity and
+        ion-exchange chromatography, and sterile formulation.

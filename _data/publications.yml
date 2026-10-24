@@ -1,9 +1,9 @@
 # Newest first. Set `me: true` on your own name and `equal: true` for equal
 # contribution. `selected: true` shows the paper on the home page.
 
-- id: larimer-picciani-2026-biorxiv
+- id: larimer-picciani-2026-mta
   bibkey: larimerpicciani2026systemic
-  title: Systemic, RPE-directed AAV-Tyrosinase therapy restores ocular pigmentation in an OCA1 mouse model
+  title: Systemic, RPE-directed AAV-tyrosinase therapy restores ocular pigmentation in an OCA1 mouse model
   authors:
     - { short: Larimer-Picciani AM, full: "Larimer-Picciani, Alessandra M." }
     - { short: Jacob LB, full: "Jacob, Lucas B." }
@@ -11,18 +11,22 @@
     - { short: Kriebel WG, full: "Kriebel, Wyatt G.", me: true }
     - { short: Sahel J-A, full: "Sahel, José-Alain" }
     - { short: Byrne LC, full: "Byrne, Leah C." }
-  venue: bioRxiv
-  venue_short: bioRxiv
+  venue: Molecular Therapy Advances
+  venue_short: Mol Ther Adv
+  volume: 34
+  number: 201861
   year: 2026
-  kind: Preprint
-  history: Posted 2 July 2026
-  status: Accepted at Molecular Therapy (in press)
-  doi: 10.64898/2026.07.01.735814
+  kind: Article
+  history: Published 7 October 2026
+  status: Open access
+  doi: 10.1016/j.omta.2026.201861
+  preprint: https://doi.org/10.64898/2026.07.01.735814
   summary: >-
-    Compares intraocular and systemic AAV delivery, using vectors with
-    different degrees of RPE specificity, for restoring iris, RPE and choroid
-    pigment in an OCA1 mouse model. Early systemic delivery of an RPE-directed
-    AAV-Tyrosinase construct restored ocular pigmentation.
+    Compares intravenous, subretinal and intravitreal delivery of AAV-tyrosinase
+    with ubiquitous and RPE-directed promoters in an OCA1 mouse model. Early
+    intravenous delivery of the RPE-directed construct restored widespread
+    ocular pigment with lower off-target expression, and treated mice showed
+    altered light-avoidance behavior in a pilot study.
   selected: true
 
 - id: kriebel-2026-scirep
