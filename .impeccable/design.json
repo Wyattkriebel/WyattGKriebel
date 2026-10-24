@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T16:22:21.896873+00:00",
+  "title": "Design System: Wyatt G. Kriebel",
+  "extensions": {
+    "colorMeta": {
+      "stain": {
+        "role": "primary",
+        "displayName": "Coomassie Blue",
+        "canonical": "#2c3a9f",
+        "tonalRamp": [
+          "#11163c",
+          "#1c2464",
+          "#27338c",
+          "#3242b4",
+          "#5766d1",
+          "#8f99e0",
+          "#c7ccf0",
+          "#ebedf9"
+        ]
+      },
+      "destain": {
+        "role": "primary",
+        "displayName": "Destained Gel",
+        "canonical": "#eef1fb",
+        "tonalRamp": [
+          "#0f193e",
+          "#182a67",
+          "#223b90",
+          "#2c4cba",
+          "#5270d6",
+          "#8ba0e4",
+          "#c5cff1",
+          "#eaeefa"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Offprint White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#1e222f",
+          "#32394e",
+          "#454f6d",
+          "#59668c",
+          "#7c88ac",
+          "#a8b0c7",
+          "#d3d7e3",
+          "#eff1f5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Stain-Black Ink",
+        "canonical": "#161823",
+        "tonalRamp": [
+          "#1e202f",
+          "#31364e",
+          "#454b6e",
+          "#59618d",
+          "#7b83ac",
+          "#a7acc8",
+          "#d3d6e3",
+          "#eff0f5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name in the home title block only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Inner page titles."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Section headings, in stain blue."
+      },
+      "title-entry": {
+        "displayName": "Entry title",
+        "purpose": "Publication, role and honour titles."
+      },
+      "deck": {
+        "displayName": "Deck",
+        "purpose": "One-line field statement under a title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose, author lists and bullets at 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Dates, history lines, footnotes, keywords, actions."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "BibTeX blocks only."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All state transitions, 160 to 220ms."
+      },
+      {
+        "name": "cite-reveal",
+        "value": "opacity 0 to 1, translateY(-4px) to 0, 220ms ease-out via @starting-style",
+        "purpose": "Cite panel opening."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "nav-compact",
+        "value": "40rem"
+      },
+      {
+        "name": "dates-margin",
+        "value": "46rem"
+      },
+      {
+        "name": "opener-two-column",
+        "value": "60rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Running head",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Stain band, name, label and page navigation with the current page underlined.",
+      "html": "<header class=\"ds-head\"><span class=\"ds-head__name\">W. G. Kriebel</span><nav><a href=\"#\" aria-current=\"page\">Profile</a><a href=\"#\">Publications</a><a href=\"#\">Experience</a></nav></header>",
+      "css": ".ds-head{display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;padding:.85rem 1.5rem;border-top:6px solid var(--stain,#2c3a9f);border-bottom:1px solid var(--rule,#d9dce6);font-family:'Schibsted Grotesk',Arial,sans-serif}.ds-head__name{font-weight:700;color:var(--ink,#161823)}.ds-head nav{display:flex;gap:1.4rem}.ds-head nav a{color:var(--ink-2,#464b5d);font-size:.9375rem;font-weight:500;text-decoration:none;padding-block:.3rem}.ds-head nav a:hover{color:var(--stain,#2c3a9f)}.ds-head nav a:focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}.ds-head nav a[aria-current=page]{color:var(--ink,#161823);font-weight:650;box-shadow:inset 0 -2px 0 var(--stain,#2c3a9f)}"
+    },
+    {
+      "name": "Highlights panel",
+      "kind": "custom",
+      "refersTo": "highlights-panel",
+      "description": "Journal Highlights: stain header strip over a destained panel with square-marker bullets.",
+      "html": "<section class=\"ds-hl\"><h2>Highlights</h2><ul><li>Co-first author of a 2026 Scientific Reports study measuring vision in OCA1 mice</li><li>Simulated de novo designed heme enzymes with AMBER molecular dynamics</li></ul></section>",
+      "css": ".ds-hl{background:var(--destain,#eef1fb);border-radius:3px;overflow:hidden;max-width:19.5rem}.ds-hl h2{margin:0;padding:.55rem 1.3rem .5rem;background:var(--stain,#2c3a9f);color:#fff;font:700 1rem/1.25 'Schibsted Grotesk',Arial,sans-serif}.ds-hl ul{margin:0;padding:1.1rem 1.3rem 1.3rem 2.35rem;list-style:square;font:400 1rem/1.45 'Source Serif 4',Georgia,serif;color:var(--ink,#161823)}.ds-hl li+li{margin-top:.7rem}.ds-hl li::marker{color:var(--stain,#2c3a9f)}"
+    },
+    {
+      "name": "Reference entry",
+      "kind": "custom",
+      "refersTo": "title-entry",
+      "description": "Publication with DOI title link, authors, italic journal, history line and actions.",
+      "html": "<article class=\"ds-ref\"><h3><a href=\"#\">Quantifying functional vision in a mouse model of oculocutaneous albinism type 1</a></h3><p class=\"ds-ref__au\"><strong>Kriebel WG</strong><span class=\"ds-eq\">*</span>, Larimer-Picciani AM<span class=\"ds-eq\">*</span>, Nukala M, Sahel J-A, Byrne LC</p><p><cite>Scientific Reports</cite> 16, 14563 (2026)</p><p class=\"ds-ref__hist\">Published 23 March 2026 &middot; Open access</p><p class=\"ds-ref__act\"><a href=\"#\">doi:10.1038/s41598-026-45301-x</a><button type=\"button\">Cite</button></p></article>",
+      "css": ".ds-ref{font:400 1rem/1.5 'Source Serif 4',Georgia,serif;color:var(--ink,#161823)}.ds-ref p{margin:0}.ds-ref h3{margin:0 0 .4rem;font:600 1.25rem/1.3 'Schibsted Grotesk',Arial,sans-serif;letter-spacing:-.012em}.ds-ref h3 a{color:inherit;text-decoration:none}.ds-ref h3 a:hover{color:var(--stain,#2c3a9f);text-decoration:underline}.ds-ref__au{color:var(--ink-2,#464b5d)}.ds-ref__au strong{color:var(--ink,#161823)}.ds-eq{color:var(--stain,#2c3a9f);font-weight:700}.ds-ref__hist{margin-top:.3rem!important;font:400 .875rem/1.45 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5f6477)}.ds-ref__act{display:flex;gap:1.4rem;margin-top:.75rem!important;font:600 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif}.ds-ref__act a{color:var(--stain,#2c3a9f);text-underline-offset:.2em}.ds-ref__act button{border:0;background:none;padding:0;font:inherit;color:var(--stain,#2c3a9f);cursor:pointer}.ds-ref__act button:hover{text-decoration:underline;text-decoration-thickness:2px}.ds-ref__act :focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}"
+    },
+    {
+      "name": "Copy button",
+      "kind": "button",
+      "refersTo": "copy-button",
+      "description": "Small outlined button inside the Cite panel; fills with stain when copied.",
+      "html": "<button class=\"ds-copy\" type=\"button\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5.5\" y=\"5.5\" width=\"8\" height=\"8\" rx=\"1.5\"/><path d=\"M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2\"/></svg>Copy</button>",
+      "css": ".ds-copy{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .65rem;border:1px solid var(--destain-edge,#d3d9f2);border-radius:4px;background:var(--paper,#fff);color:var(--stain,#2c3a9f);font:600 .8125rem/1.2 'Schibsted Grotesk',Arial,sans-serif;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),border-color 160ms cubic-bezier(.16,1,.3,1)}.ds-copy:hover{border-color:var(--stain,#2c3a9f)}.ds-copy:focus-visible{outline:2px solid var(--stain,#2c3a9f);outline-offset:3px}.ds-copy:active{background:var(--stain,#2c3a9f);color:#fff}"
+    },
+    {
+      "name": "Key resources table",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Three-rule journal table with caption above.",
+      "html": "<table class=\"ds-tbl\"><caption>Methods and tools used across the roles above</caption><thead><tr><th>Area</th><th>Methods</th></tr></thead><tbody><tr><th>Computational</th><td>Python, R, AMBER molecular dynamics, molecular docking</td></tr><tr><th>Gene therapy</th><td>AAV production and purification, cGMP manufacturing</td></tr></tbody></table>",
+      "css": ".ds-tbl{width:100%;border-collapse:collapse;border-top:2px solid var(--ink,#161823);border-bottom:2px solid var(--ink,#161823);font:400 1rem/1.5 'Source Serif 4',Georgia,serif}.ds-tbl caption{caption-side:top;text-align:left;padding-bottom:.65rem;font:400 .875rem/1.4 'Schibsted Grotesk',Arial,sans-serif;color:var(--ink-3,#5f6477)}.ds-tbl thead th{text-align:left;padding:.55rem 1rem .5rem 0;border-bottom:1px solid var(--ink,#161823);font:700 .8125rem/1.3 'Schibsted Grotesk',Arial,sans-serif}.ds-tbl tbody th,.ds-tbl td{text-align:left;vertical-align:top;padding:.8rem 1rem .8rem 0}.ds-tbl tbody th{font:600 .9375rem/1.45 'Schibsted Grotesk',Arial,sans-serif;width:30%}.ds-tbl tbody tr+tr>*{border-top:1px solid var(--rule,#d9dce6)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Journal First Page",
+    "overview": "Every page is set like the opening page of a life-science research article: a colour band and running head at the top, a large sans title block with superscript affiliations, then a Highlights box and the article body. The world lives in the frame (band, running head, title block, Highlights strip, three-rule tables, reference-list entries). The reading column stays quiet: a text serif at a real measure on plain white paper.\n\nThe single accent is Coomassie blue, the dye used to stain protein gels, and its pale \"destained gel\" tint. The site is meant to look credible to faculty and hiring managers. It is flat, typographic and print-derived, with no gradients, glass, cards or animation beyond small state transitions.",
+    "keyCharacteristics": [
+      "White offprint paper, near-black blue-tinted ink, one stain colour.",
+      "Grotesque sans for titles, headings, labels and metadata; text serif for anything read as prose.",
+      "Journal apparatus as the component set: running head, superscript affiliations with footnotes, Highlights, keywords, Correspondence, reference entries with history lines, Cite, three-rule tables.",
+      "Square list markers in stain blue, solid rules, tabular numerals for dates."
+    ],
+    "rules": [
+      {
+        "name": "The One Stain Rule",
+        "body": "Coomassie blue is the only hue on the page. Hierarchy comes from weight, size and ink tone, never from a second accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The White Paper Rule",
+        "body": "The ground is plain white in light mode. Tinted grounds appear only inside the destained panels.",
+        "section": "colors"
+      },
+      {
+        "name": "The Front-Matter Rule",
+        "body": "Sans for anything that labels, serif for anything that is read. Never set a paragraph in the grotesque or a heading in the serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Eyebrow Rule",
+        "body": "Headings stand alone. No small labels above headings and no section numbers. The only numbering is the publication count, because it carries information.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do keep every claim traceable: publications carry DOIs and history lines exactly as the publisher states them.",
+      "Do theme browser surfaces from the palette: selection in the select tint, caret and focus ring in stain (2px outline, 3px offset), and a link underline offset of 0.2em.",
+      "Do use authored inline SVG icons at 14px with a 1.5–1.6 stroke.",
+      "Do respect reduced motion. The only motion is 160–220ms ease-out on state changes and the Cite panel's fade-in."
+    ],
+    "donts": [
+      "Don't add a second accent colour, gradients, glass, shadows or cards.",
+      "Don't put kickers or eyebrows above headings, or number sections.",
+      "Don't set the page on cream or warm paper, or use an italic display serif. That is the editorial look this design avoids.",
+      "Don't use monospace outside code (BibTeX).",
+      "Don't use emoji or Unicode glyphs as icons."
+    ]
+  }
+}
