@@ -1,6 +1,28 @@
 # Projects, newest or most active first. `home: true` lists a project on the
 # home page. `play` is a path on this site; `repo` is the GitHub repository.
 
+- id: aav-docking-benchmark
+  name: AAV docking benchmark
+  kind: Benchmarking study of molecular docking
+  status: Pilot stage
+  stack: Python, AutoDock Vina, HADDOCK3
+  home: true
+  summary: >-
+    A benchmark asking whether molecular docking can reliably find the places
+    where proteins bind sugars, and tell genuine recognition apart from poses
+    that merely score well. Protein–glycan binding drives how AAV gene therapy
+    vectors reach cells, so where docking fails matters.
+  detail: >-
+    The protocol compares docking programs under matched conditions: how much
+    prior information the search is given, whether the structure was solved
+    with or without its ligand, and how glycan size and charge are controlled
+    between comparisons. Methods include fpocket and P2Rank for finding
+    pockets, AutoDock Vina, Vina-Carb and HADDOCK3 for docking, with
+    pre-registered parameters and seeds so runs can be reproduced. The design
+    is written down before scoring the full set, and failures are recorded as
+    results rather than discarded.
+  repo: https://github.com/Wyattkriebel/AAV-Docking-Benchmark
+
 - id: sidechain
   name: Sidechain
   kind: Browser game for biochemistry teaching
